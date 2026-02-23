@@ -133,3 +133,20 @@
 ::-webkit-scrollbar-track { background: #0a0f1e; }
 ::-webkit-scrollbar-thumb { background: rgb(220,38,38); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgb(185,28,28); }
+
+/* 
+ * 📁 Agrega esto a src/styles/animations.css
+ * (al final del archivo, después de lo que ya tienes)
+ */
+
+/* ── Preloader dots originales ── */
+@keyframes dotBounce {
+  0%, 100% { transform: translateY(0);    opacity: 1;    }
+  50%       { transform: translateY(-18px); opacity: 0.7; }
+}
+
+.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: rgb(220, 38, 38); }
+.dot-1 { animation: dotBounce 0.6s ease-in-out 0.00s infinite; }
+.dot-2 { animation: dotBounce 0.6s ease-in-out 0.12s infinite; }
+.dot-3 { animation: dotBounce 0.6s ease-in-out 0.24s infinite; }
+.dot-4 { animation: dotBounce 0.6s ease-in-out 0.36s infinite; }
