@@ -70,7 +70,7 @@ function Counter({ target, duration = 2, format = 'normal' }: CounterProps) {
     return () => cancelAnimationFrame(animationFrame);
   }, [isInView, target, duration]);
 
-  // 🔥 Formato visual
+  // Formato visual
   if (format === 'millions') {
     return <span ref={nodeRef}>{Math.floor(count / 1_000_000)}</span>;
   }

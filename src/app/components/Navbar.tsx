@@ -1,7 +1,6 @@
-// 📁 src/app/components/Navbar.tsx
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShieldAlert } from 'lucide-react';
 import logo from '../../../img/logopregat.png';
 
 const navLinks = [
@@ -19,10 +18,8 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      // Resaltar sección activa
-      const sections = navLinks.map(l => document.getElementById(l.id));
-      for (const section of sections.reverse()) {
+      const sections = [...navLinks].reverse().map(l => document.getElementById(l.id));
+      for (const section of sections) {
         if (section && window.scrollY >= section.offsetTop - 200) {
           setActiveId(section.id);
           break;
@@ -48,121 +45,137 @@ export function Navbar() {
       transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-[#0a1628]/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+          ? 'bg-[#030712]/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] border-b border-white/5'
           : 'bg-transparent'
       }`}
     >
-      {/* Línea roja inferior al hacer scroll */}
+      {/* 🚨 SIRENAS ULTRA-VISIBLES (CAPA TÁCTICA) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none h-20">
+        {/* Foco Rojo (Izquierda - Detrás del Logo) */}
+        <div 
+          className="absolute -top-10 -left-10 w-[350px] h-[250px] animate-siren-red opacity-100"
+          style={{
+            background: 'radial-gradient(circle at center, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0.15) 45%, transparent 75%)'
+          }} 
+        />
+        
+        {/* Foco Azul (Derecha - Detrás de Contacto) */}
+        <div 
+          className="absolute -top-10 -right-10 w-[350px] h-[250px] animate-siren-blue opacity-100"
+          style={{
+            background: 'radial-gradient(circle at center, rgba(0,80,255,0.5) 0%, rgba(0,80,255,0.15) 45%, transparent 75%)'
+          }} 
+        />
+
+        {/* Línea de escaneo superior parpadeante */}
+        <div className="absolute top-0 left-0 w-full h-[2px] flex opacity-50">
+          <div className="w-1/2 h-full bg-red-600 shadow-[0_0_20px_red] animate-pulse" />
+          <div className="w-1/2 h-full bg-blue-600 shadow-[0_0_20px_blue] animate-pulse [animation-delay:0.4s]" />
+        </div>
+      </div>
+
+      {/* Línea Táctica inferior que brilla al hacer scroll */}
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: isScrolled ? 1 : 0 }}
         transition={{ duration: 0.4 }}
-        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-red-600 to-transparent origin-center"
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent shadow-[0_0_20px_rgba(220,38,38,0.8)] origin-center"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="flex items-center justify-between h-20">
 
-          {/* Logo */}
+          {/* Logo con Resplandor Reactivo */}
           <motion.button
             onClick={() => scrollToSection('hero')}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            transition={{ type: 'spring', stiffness: 400 }}
-            className="flex items-center"
+            className="flex items-center relative group"
           >
-            <img src={logo} alt="PREGAT" className="h-12 md:h-14 w-auto" />
+            <div className="absolute inset-0 bg-red-600/30 blur-2xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500" />
+            <img src={logo} alt="PREGAT" className="h-12 md:h-14 w-auto relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
           </motion.button>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link, i) => (
+            {navLinks.map((link) => (
               <motion.button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
-                className="relative text-white/80 hover:text-white transition-colors font-medium text-sm tracking-wide group"
+                className={`relative transition-all duration-300 font-bold text-xs uppercase tracking-[0.2em] group ${
+                  activeId === link.id ? 'text-white' : 'text-white/50 hover:text-white'
+                }`}
               >
-                {link.label}
-
-                {/* Subrayado animado */}
-                <span
-                  className="absolute -bottom-1 left-0 h-[1.5px] bg-red-500 transition-all duration-300 ease-out"
-                  style={{ width: activeId === link.id ? '100%' : '0%' }}
-                />
-                <span className="absolute -bottom-1 left-0 h-[1.5px] bg-red-400/60 w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                <span className="relative z-10">{link.label}</span>
+                
+                <AnimatePresence>
+                  {activeId === link.id && (
+                    <motion.span
+                      layoutId="activeTab"
+                      className="absolute -bottom-2 left-0 w-full h-[2px] bg-red-600 shadow-[0_0_15px_#dc2626,0_0_5px_#fff]"
+                      initial={{ opacity: 0, scaleX: 0 }}
+                      animate={{ opacity: 1, scaleX: 1 }}
+                      exit={{ opacity: 0, scaleX: 0 }}
+                    />
+                  )}
+                </AnimatePresence>
               </motion.button>
             ))}
 
-            {/* CTA button */}
+            {/* Central de Contacto (Alerta Máxima) */}
             <motion.button
               onClick={() => scrollToSection('contacto')}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              whileHover={{ scale: 1.06, boxShadow: '0 0 20px rgba(220,38,38,0.5)' }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: '0 0 30px rgba(220,38,38,0.5), 0 0 10px rgba(0,80,255,0.5)',
+              }}
               whileTap={{ scale: 0.95 }}
-              className="relative overflow-hidden bg-red-600 text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg group"
+              className="relative overflow-hidden bg-red-600 text-white px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-tighter shadow-xl group flex items-center gap-2 border border-white/20"
             >
-              {/* Shine effect */}
-              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-              Contáctanos
+              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-30 animate-pulse" />
+              <ShieldAlert size={14} className="animate-bounce" />
+              <span className="relative z-10">Central de Contacto</span>
+              
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 animate-scanline" 
+                   style={{ width: '200%', left: '-100%' }} />
             </motion.button>
           </div>
 
           {/* Mobile button */}
           <motion.button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.9 }}
-            className="md:hidden text-white p-2"
+            className="md:hidden text-white p-2 border border-white/10 rounded-lg bg-white/5 relative"
           >
-            <AnimatePresence mode="wait">
-              {isMobileMenuOpen
-                ? <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}><X size={24} /></motion.div>
-                : <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}><Menu size={24} /></motion.div>
-              }
-            </AnimatePresence>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.button>
         </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden bg-[#0a1628]/98 backdrop-blur-md border-t border-white/10"
-            >
-              <div className="py-4 space-y-1">
-                {navLinks.map((link, i) => (
-                  <motion.button
-                    key={link.id}
-                    onClick={() => scrollToSection(link.id)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07 }}
-                    className="block w-full text-left text-white/80 hover:text-white hover:bg-white/5 transition-all py-3 px-4 font-medium text-sm rounded-lg mx-1"
-                  >
-                    {link.label}
-                  </motion.button>
-                ))}
-                <div className="px-4 pt-2">
-                  <button
-                    onClick={() => scrollToSection('contacto')}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-colors"
-                  >
-                    Contáctanos
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+      
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            className="fixed inset-y-0 right-0 w-64 bg-[#030712]/98 backdrop-blur-2xl border-l border-red-900/50 p-6 md:hidden z-[60]"
+          >
+            <div className="flex flex-col space-y-6 mt-16">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className={`text-left text-sm font-black uppercase tracking-widest transition-colors ${
+                    activeId === link.id ? 'text-red-500' : 'text-white/70 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

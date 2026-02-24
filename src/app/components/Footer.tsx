@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid md:grid-cols-3 gap-8 items-center">
           {/* Copyright */}
           <div className="text-white/80 text-sm md:text-base">
-            ©2025, PREGAT Todos los derechos reservados
+            ©2026, PREGAT Todos los derechos reservados
           </div>
 
           {/* Logo */}

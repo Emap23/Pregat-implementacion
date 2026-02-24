@@ -1,0 +1,30 @@
+.sirenTitle {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 900;
+  color: #fff;
+  display: inline-block;
+  /* El secreto: un resplandor que alterna entre rojo y azul */
+  animation: policeFlash 3s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.sirenTitle:hover {
+  transform: scale(1.05) skewX(-2deg);
+  cursor: crosshair;
+}
+
+@keyframes policeFlash {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px rgba(255, 0, 0, 0.8),
+      0 0 20px rgba(255, 0, 0, 0.4);
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.6));
+  }
+  50% {
+    text-shadow: 
+      0 0 10px rgba(0, 80, 255, 0.8),
+      0 0 20px rgba(0, 80, 255, 0.4);
+    filter: drop-shadow(0 0 5px rgba(0, 80, 255, 0.6));
+  }
+}
