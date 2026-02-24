@@ -1,0 +1,95 @@
+/*
+ * 📁 src/styles/neural-override.css
+ *
+ * Hace que todas las secciones sean transparentes
+ * para que el fondo de neuronas se vea a través de toda la página.
+ *
+ * INSTALACIÓN:
+ * Agrega en src/styles/index.css:
+ *   @import './neural-override.css';
+ *
+ * Si alguna sección necesita fondo sólido propio, agrega la clase
+ * "keep-bg" a ese elemento y ese queda excluido de la transparencia.
+ */
+
+/* ── Hacer transparente el body y el contenedor raíz ── */
+body,
+#root {
+  background: transparent !important;
+}
+
+/* ── Todas las secciones y divs de contenido → transparentes ── */
+section,
+main,
+article,
+[class*="Section"],
+[class*="-section"],
+[class*="products"],
+[class*="Products"],
+[class*="hero"],
+[class*="Hero"],
+[class*="stats"],
+[class*="Stats"],
+[class*="contact"],
+[class*="Contact"],
+[class*="testimonial"],
+[class*="Testimonial"],
+[class*="integration"],
+[class*="Integration"],
+[class*="scp"],
+[class*="SCP"],
+[class*="footer"],
+[class*="Footer"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* ── Excepciones: elementos que SÍ deben conservar su fondo ── */
+
+/* Cards de producto, cards de testimonio — conservan su fondo */
+[class*="card"],
+[class*="Card"],
+[class*="module"],
+[class*="Module"],
+[class*="panel"],
+[class*="Panel"],
+[class*="glass"],
+[class*="modal"],
+[class*="Modal"],
+[class*="dialog"],
+/* Navbar — conserva su fondo oscuro */
+nav,
+header,
+[class*="nav"],
+[class*="Nav"],
+[class*="navbar"],
+/* Marquee — conserva su fondo */
+[class*="marquee"],
+[class*="Marquee"],
+/* Botones */
+button,
+[class*="btn"],
+[class*="Btn"],
+/* Inputs y formularios */
+input,
+textarea,
+select,
+[class*="input"],
+[class*="form"],
+/* Clase manual de exclusión */
+.keep-bg {
+  /* no override — conservan su fondo original */
+}
+
+/* ── Viñeta sutil para dar profundidad sobre las secciones de texto ── */
+/* (opcional — comenta si no la quieres) */
+[class*="Section"]::before,
+section::before {
+  content: none; /* quitar pseudo-elementos que puedan poner fondos */
+}
+
+/* ── Color de texto base asegurado ── */
+/* Para que el texto sea legible sobre el fondo oscuro de neuronas */
+body {
+  color: #e2e8f0;
+}

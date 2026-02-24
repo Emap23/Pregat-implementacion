@@ -1,9 +1,11 @@
 // 📁 src/app/components/ProductsSection.tsx
-// Tarjetas apiladas — cada scroll avanza automáticamente a la siguiente
-// Efecto "sticky stack": las tarjetas se quedan fijas mientras el contenido avanza
+// CAMBIOS vs original:
+//  1. bg-[#060d1a] → reemplazado con fondo sólido que TAPA las neuronas
+//  2. Título "Nuestros Productos" → efecto LED sirena rojo/azul
+//  3. Cards idénticas al original (sin tocar el scroll sticky)
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { Shield, Brain, Smartphone, Monitor, Lock, Cpu, Globe, Eye, ChevronRight, ArrowDown } from 'lucide-react';
 
 const products = [
@@ -65,7 +67,7 @@ const products = [
   },
 ];
 
-// ── Tarjeta individual con sus propias animaciones de scroll ──────────
+// ─── Card individual — IDÉNTICA al original ───────────────────────────────────
 function ProductCard({ product, index, total }: { product: typeof products[0]; index: number; total: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -73,7 +75,6 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
     offset: ['start end', 'end start'],
   });
 
-  // La tarjeta escala de 0.85 → 1 al entrar, y vuelve a 0.92 al salir
   const scale   = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.88, 1, 1, 0.92]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1],   [0, 1, 1, 0.3]);
   const y       = useTransform(scrollYProgress, [0, 0.25],           [60, 0]);
@@ -87,16 +88,11 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
         className="w-full max-w-5xl rounded-2xl overflow-hidden relative"
         initial={false}
       >
-        {/* Fondo imagen */}
+        {/* Fondo imagen — cubre las neuronas completamente */}
         <div className="absolute inset-0">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
+          <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
           <div className={`absolute inset-0 bg-gradient-to-r ${product.bg} backdrop-blur-[2px]`} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-          {/* Cuadrícula sutil */}
           <div className="absolute inset-0 opacity-[0.04]"
             style={{
               backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
@@ -106,23 +102,15 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
           />
         </div>
 
-        {/* Borde de color */}
         <div className="absolute inset-0 rounded-2xl" style={{ border: `1px solid ${product.color}30` }} />
-
-        {/* Línea superior */}
         <div className="absolute top-0 left-0 right-0 h-[2px]"
           style={{ background: `linear-gradient(90deg, transparent, ${product.color}, transparent)` }} />
 
-        {/* Contenido */}
         <div className="relative z-10 p-8 md:p-12 lg:p-16 grid md:grid-cols-2 gap-10 items-center min-h-[500px]">
-
-          {/* Izquierda */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ background: `${product.color}20`, border: `1.5px solid ${product.color}50` }}
-              >
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ background: `${product.color}20`, border: `1.5px solid ${product.color}50` }}>
                 <Icon className="w-7 h-7" style={{ color: product.color }} />
               </div>
               <div>
@@ -143,17 +131,12 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
 
             <button
               className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest px-6 py-3 rounded-full transition-all duration-300 hover:gap-4 hover:shadow-lg"
-              style={{
-                background: `${product.color}20`,
-                border: `1px solid ${product.color}50`,
-                color: product.color,
-              }}
+              style={{ background: `${product.color}20`, border: `1px solid ${product.color}50`, color: product.color }}
             >
               Conocer más <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Derecha — features */}
           <div className="space-y-3">
             <div className="text-white/30 text-xs font-mono uppercase tracking-widest mb-5">
               Funcionalidades clave
@@ -168,22 +151,19 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
                 className="flex items-center gap-3 p-4 rounded-xl"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
               >
-                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: product.color, boxShadow: `0 0 8px ${product.color}` }} />
+                <div className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: product.color, boxShadow: `0 0 8px ${product.color}` }} />
                 <span className="text-white/70 text-sm">{f}</span>
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* Número grande decorativo */}
-        <div
-          className="absolute bottom-4 right-8 font-black text-8xl md:text-9xl leading-none pointer-events-none select-none"
-          style={{ color: `${product.color}08`, fontVariantNumeric: 'tabular-nums' }}
-        >
+        <div className="absolute bottom-4 right-8 font-black text-8xl md:text-9xl leading-none pointer-events-none select-none"
+          style={{ color: `${product.color}08`, fontVariantNumeric: 'tabular-nums' }}>
           {product.id}
         </div>
 
-        {/* Indicador de posición */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
           <span className="font-mono text-xs" style={{ color: product.color }}>{product.id}</span>
           <span className="text-white/20 font-mono text-xs">/ {String(total).padStart(2, '0')}</span>
@@ -193,53 +173,106 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
   );
 }
 
+// ─── Sección ─────────────────────────────────────────────────────────────────
 export function ProductsSection() {
   return (
-    <section id="productos" className="bg-[#060d1a]">
-      {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
-            <span className="text-red-400 text-xs font-mono uppercase tracking-[0.25em]">Portfolio Tecnológico</span>
-            <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
-          </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4">
-            Nuestros Productos
-          </h2>
-          <p className="text-white/40 text-base max-w-lg mx-auto mb-8">
-            Desplázate hacia abajo para explorar cada módulo del ecosistema SCP.
-          </p>
+    <>
+      {/*
+        CAMBIO CLAVE: bg-[#060d1a] sólido que TAPA las neuronas del fondo.
+        Las neuronas son position:fixed z-index:-1, así que cualquier
+        fondo opaco en un elemento con z-index >= 0 las oculta automáticamente.
+      */}
+      <section id="productos" style={{ backgroundColor: '#060d1a', position: 'relative', zIndex: 0 }}>
+
+        {/* Header */}
+        <div className="max-w-7xl mx-auto px-6 pt-20 pb-8 text-center">
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="inline-flex flex-col items-center gap-1 text-white/30"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
           >
-            <ArrowDown className="w-4 h-4" />
-            <span className="text-xs font-mono tracking-widest">SCROLL</span>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
+              <span className="text-red-400 text-xs font-mono uppercase tracking-[0.25em]">Portfolio Tecnológico</span>
+              <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
+            </div>
+
+            {/* ── TÍTULO CON EFECTO SIRENA ── */}
+            <h2 className="siren-glow text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4">
+              Nuestros Productos
+            </h2>
+
+            <p className="text-white/40 text-base max-w-lg mx-auto mb-8">
+              Desplázate hacia abajo para explorar cada módulo del ecosistema SCP.
+            </p>
+
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="inline-flex flex-col items-center gap-1 text-white/30"
+            >
+              <ArrowDown className="w-4 h-4" />
+              <span className="text-xs font-mono tracking-widest">SCROLL</span>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </div>
+        </div>
 
-      {/* Cards apiladas con sticky */}
-      <div>
-        {products.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            index={index}
-            total={products.length}
-          />
-        ))}
-      </div>
+        {/* Cards apiladas — sin cambios */}
+        <div>
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} total={products.length} />
+          ))}
+        </div>
 
-      {/* Espaciado final */}
-      <div className="h-24" />
-    </section>
+        <div className="h-24" />
+      </section>
+
+      {/* ── Keyframes del efecto sirena ── */}
+      <style>{`
+        @keyframes sirenR {
+          0%, 49%, 100% {
+            text-shadow:
+              0 0 12px rgba(220,38,38,0),
+              0 0 35px rgba(220,38,38,0),
+              0 0 70px rgba(220,38,38,0);
+          }
+          8%, 40% {
+            text-shadow:
+              0 0 12px rgba(220,38,38,1),
+              0 0 35px rgba(220,38,38,0.7),
+              0 0 70px rgba(220,38,38,0.4),
+              0 0 140px rgba(220,38,38,0.15);
+          }
+        }
+        @keyframes sirenB {
+          0%, 49%, 100% {
+            text-shadow:
+              0 0 12px rgba(37,99,235,0),
+              0 0 35px rgba(37,99,235,0),
+              0 0 70px rgba(37,99,235,0);
+          }
+          58%, 90% {
+            text-shadow:
+              0 0 12px rgba(37,99,235,1),
+              0 0 35px rgba(59,130,246,0.7),
+              0 0 70px rgba(37,99,235,0.4),
+              0 0 140px rgba(37,99,235,0.15);
+          }
+        }
+
+        /* Superponemos ambas animaciones con offset de fase */
+        .siren-glow {
+          animation:
+            sirenR 1.2s ease-in-out infinite,
+            sirenB 1.2s ease-in-out 0.6s infinite;
+        }
+
+        /* Versión para cualquier otro título que quieras con el mismo efecto:
+           agrega className="siren-glow" al elemento */
+      `}</style>
+    </>
   );
 }
