@@ -85,7 +85,7 @@ export function StatsSection() {
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
           backgroundImage: 'url(/img/queno.webp)',
-          backgroundSize: 'contain',
+          backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}

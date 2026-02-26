@@ -1,20 +1,70 @@
 // 📁 src/app/components/HeroSection.tsx
 import { ChevronDown } from 'lucide-react';
-// Cambiado de 'motion/react' a 'framer-motion' (estándar)
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
 import logo from '../../../img/logopregat.png';
-import { SplitWords } from './SplitText';
+import scpBackground from '../../../img/SCP1.webp';
+
 import { useParallax } from './useParallax';
 import { FloatingDecorators } from './FloatBob';
 
-export function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const parallaxBg = useParallax({ speed: 0.25 });
+// Todas las palabras del título con su color base
+const TITLE_LINES = [
+  [
+    { word: 'Tecnología', red: false },
+    { word: 'Inteligente', red: false },
+  ],
+  [
+    { word: 'que',      red: true  },
+    { word: 'Respalda', red: true  },
+    { word: 'tu',       red: false },
+    { word: 'Gestión',  red: false },
+    { word: 'de',       red: false },
+  ],
+  [
+    { word: 'Gobierno', red: false },
+  ],
+];
 
-  const { scrollY } = useScroll();
+// Variantes por palabra — alternamos rojo/blanco en hover
+function getVariants(index: number, isRed: boolean) {
+  const colors = ['#ef4444', '#ffffff', '#fca5a5', '#ffffff', '#ef4444', '#fca5a5', '#ffffff'];
+  const hoverColor = isRed ? '#ff6b6b' : colors[index % colors.length];
+
+  return {
+    idle: {
+      color: isRed ? '#ef4444' : '#ffffff',
+      y: 0,
+      scale: 1,
+      textShadow: '0 0 0px rgba(0,0,0,0)',
+    },
+    hovered: {
+      color: hoverColor,
+      y: -5,
+      scale: 1.03,
+      textShadow: isRed
+        ? '0 0 15px rgba(239,68,68,1), 0 0 40px rgba(239,68,68,0.6), 0 0 80px rgba(239,68,68,0.3)'
+        : index % 3 === 0
+          ? '0 0 15px rgba(220,38,38,0.9), 0 0 40px rgba(220,38,38,0.5)'
+          : '0 0 15px rgba(255,255,255,0.8), 0 0 35px rgba(255,255,255,0.3)',
+    },
+  };
+}
+
+export function HeroSection() {
+  const sectionRef  = useRef<HTMLElement>(null);
+  const parallaxBg  = useParallax({ speed: 0.2 });
+  const [hovered, setHovered] = useState(false);
+
+  const { scrollY }    = useScroll();
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const contentY = useTransform(scrollY, [0, 400], [0, 60]);
+  const contentY       = useTransform(scrollY, [0, 400], [0, 60]);
+
+  const bgImagePath = typeof scpBackground === 'string' ? scpBackground : scpBackground.src;
+  const logoPath    = typeof logo === 'string' ? logo : logo.src;
+
+  let wordIndex = 0; // contador global para delays escalonados
 
   return (
     <section
@@ -22,23 +72,26 @@ export function HeroSection() {
       id="hero"
       className="relative min-h-screen flex items-center justify-start overflow-hidden bg-[#0a1628]"
     >
-      {/* ── Fondo con parallax ── */}
+      {/* Fondo parallax */}
       <div
         ref={parallaxBg}
-        className="absolute inset-0 z-0 scale-110"
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1759382033088-9726a2eb7688?q=80&w=1080)',
-          backgroundSize: 'cover',
+          backgroundImage: `url(${bgImagePath})`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
+          backgroundColor: '#0a1628',
+          transform: 'scale(1.15)',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/95 via-[#0a1628]/20 to-transparent" />
       </div>
 
       <FloatingDecorators />
 
-      {/* ── Líneas de escaneo ── */}
+      {/* Líneas de escaneo */}
       <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
         {[...Array(6)].map((_, i) => (
           <motion.div
@@ -47,18 +100,12 @@ export function HeroSection() {
             style={{ top: `${15 + i * 14}%` }}
             initial={{ x: '-100%', opacity: 0 }}
             animate={{ x: '100%', opacity: [0, 0.5, 0] }}
-            transition={{
-              duration: 3,
-              delay: 1.5 + i * 0.4,
-              repeat: Infinity,
-              repeatDelay: 8 + i * 2,
-              ease: 'easeInOut',
-            }}
+            transition={{ duration: 3, delay: 1.5 + i * 0.4, repeat: Infinity, repeatDelay: 8 + i * 2, ease: 'easeInOut' }}
           />
         ))}
       </div>
 
-      {/* ── Contenido principal ── */}
+      {/* Contenido */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40 w-full"
@@ -70,10 +117,11 @@ export function HeroSection() {
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mb-8 md:mb-12"
         >
-          <img src={logo.src || logo} alt="PREGAT" className="h-20 sm:h-24 md:h-32 lg:h-40 w-auto" />
+          <img src={logoPath} alt="PREGAT" className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto" />
         </motion.div>
 
         <div className="max-w-3xl">
+          {/* Subtítulo */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -91,14 +139,57 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 md:mb-8">
-            <SplitWords text="Tecnología Inteligente" delay={0.7} stagger={0.07} as="span" />
-            <br />
-            <span className="text-red-500">
-              <SplitWords text="que Respalda" delay={1.0} stagger={0.07} as="span" />
-            </span>
-            {' '}
-            <SplitWords text="tu Gestión de Gobierno" delay={1.25} stagger={0.07} as="span" />
+          {/* ── TÍTULO COMPLETO ANIMADO ── */}
+          <h1
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.3] mb-5 md:mb-6"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{ cursor: 'default' }}
+          >
+            {TITLE_LINES.map((line, lineIdx) => {
+              return (
+                <span key={lineIdx} className="flex flex-wrap gap-x-[0.28em] gap-y-1 mb-1">
+                  {line.map(({ word, red }) => {
+                    const idx = wordIndex++;
+                    return (
+                      <motion.span
+                        key={word + idx}
+                        className="inline-block relative"
+                        initial="idle"
+                        animate={hovered ? 'hovered' : 'idle'}
+                        variants={getVariants(idx, red)}
+                        transition={{
+                          duration: 0.4,
+                          delay: hovered ? idx * 0.06 : idx * 0.02,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        {word}
+
+                        {/* Línea roja bajo cada palabra */}
+                        <motion.span
+                          className="absolute left-0 bottom-[-2px] h-[2px] rounded-full"
+                          style={{
+                            background: red ? '#ef4444' : '#dc2626',
+                            boxShadow: '0 0 8px rgba(220,38,38,0.9)',
+                          }}
+                          initial={{ width: '0%', opacity: 0 }}
+                          animate={hovered
+                            ? { width: '100%', opacity: 1 }
+                            : { width: '0%',   opacity: 0 }
+                          }
+                          transition={{
+                            duration: 0.35,
+                            delay: hovered ? idx * 0.07 + 0.08 : 0,
+                            ease: 'easeOut',
+                          }}
+                        />
+                      </motion.span>
+                    );
+                  })}
+                </span>
+              );
+            })}
           </h1>
 
           <motion.p
@@ -107,8 +198,8 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 1.6 }}
             className="text-white/70 text-base md:text-lg mb-10 max-w-xl leading-relaxed"
           >
-            Soluciones integrales para fortalecer a las fuerzas del orden 
-            y consolidar la confianza social en tu administración. 
+            Soluciones integrales para fortalecer a las fuerzas del orden
+            y consolidar la confianza social en tu administración.
           </motion.p>
 
           <motion.div
@@ -120,13 +211,12 @@ export function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(220,38,38,0.6)' }}
               whileTap={{ scale: 0.97 }}
-              className="relative overflow-hidden bg-red-600 text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide group"
+              className="bg-red-600 text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide"
             >
               Solicitar Asesoría
             </motion.button>
-
             <motion.button
-              whileHover={{ scale: 1.05, border: '1px solid rgba(220,38,38,0.8)' }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-4 rounded-full font-semibold text-sm transition-colors"
             >
@@ -138,9 +228,9 @@ export function HeroSection() {
         {/* Stats */}
         <div className="flex gap-8 md:gap-12">
           {[
-            { value: '800+', label: 'Entidades' },
-            { value: '316+', label: 'Policías' },
-            { value: '200M+', label: 'Casos' },
+            { value: '800+',  label: 'Entidades' },
+            { value: '316+',  label: 'Policías'  },
+            { value: '200M+', label: 'Casos'     },
           ].map((stat, i) => (
             <motion.div
               key={i}
