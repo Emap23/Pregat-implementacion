@@ -1,245 +1,172 @@
-
-
-import { MessageCircle, LayoutDashboard, UserCheck, Radio, Brain, Shield } from 'lucide-react';
+// 📁 src/app/components/IntegrationSection.tsx
+import { MessageCircle, LayoutDashboard, UserCheck, Radio, Brain, Shield, Terminal, Clock, DatabaseZap, Wifi, Target, Activity, Cpu, Lock } from 'lucide-react';
 import { motion, useInView } from 'motion/react';
-import { useRef } from 'react';
-import { SplitWords } from './SplitText';
+import { useRef, useState } from 'react';
 
 const integrations = [
-  {
-    icon: MessageCircle,
-    title: 'SCP CIUDADANO',
-    description: 'Facilita una comunicación directa y transparente con los ciudadanos.',
-    color: 'from-red-500 to-rose-700',
-    border: 'rgba(239,68,68,0.4)',
-    glow: 'rgba(239,68,68,0.15)',
-    tag: '01',
-  },
-  {
-    icon: LayoutDashboard,
-    title: 'SCP DASHBOARD',
-    description: 'Integra una herramienta para la toma de decisiones informadas y estratégicas.',
-    color: 'from-blue-500 to-blue-800',
-    border: 'rgba(59,130,246,0.4)',
-    glow: 'rgba(59,130,246,0.15)',
-    tag: '02',
-  },
-  {
-    icon: UserCheck,
-    title: 'SCP SUPERVISOR',
-    description: 'Asegura una respuesta rápida y efectiva ante cualquier incidente.',
-    color: 'from-emerald-500 to-emerald-800',
-    border: 'rgba(16,185,129,0.4)',
-    glow: 'rgba(16,185,129,0.15)',
-    tag: '03',
-  },
-  {
-    icon: Radio,
-    title: 'SCP CENTRO DE MANDO',
-    description: 'Supervisar y gestionar las actividades policiales en tiempo real.',
-    color: 'from-cyan-500 to-cyan-800',
-    border: 'rgba(6,182,212,0.4)',
-    glow: 'rgba(6,182,212,0.15)',
-    tag: '04',
-  },
-  {
-    icon: Brain,
-    title: 'SCP INTELIGENCIA',
-    description: 'Proporcionar información clave para la toma de decisiones estratégicas.',
-    color: 'from-orange-500 to-orange-800',
-    border: 'rgba(249,115,22,0.4)',
-    glow: 'rgba(249,115,22,0.15)',
-    tag: '05',
-  },
-  {
-    icon: Shield,
-    title: 'SCP POLICÍA',
-    description: 'Optimizar las actividades diarias de los elementos de seguridad.',
-    color: 'from-indigo-500 to-indigo-800',
-    border: 'rgba(99,102,241,0.4)',
-    glow: 'rgba(99,102,241,0.15)',
-    tag: '06',
-  },
+  { icon: MessageCircle, title: 'SCP CIUDADANO', code: '0x001_COMMS', description: 'Facilita una comunicación directa y transparente con los ciudadanos.', color: '#ef4444', latency: '4ms', tag: 'NODE::01' },
+  { icon: LayoutDashboard, title: 'SCP DASHBOARD', code: '0x002_VISUAL', description: 'Integra una herramienta para la toma de decisiones informadas y estratégicas.', color: '#3b82f6', latency: '2ms', tag: 'NODE::02' },
+  { icon: UserCheck, title: 'SCP SUPERVISOR', code: '0x003_AUTH', description: 'Asegura una respuesta rápida y efectiva ante cualquier incidente.', color: '#10b981', latency: '3ms', tag: 'NODE::03' },
+  { icon: Radio, title: 'SCP CENTRO DE MANDO', code: '0x004_RADIO', description: 'Supervisar y gestionar las actividades policiales en tiempo real.', color: '#06b6d4', latency: '1ms', tag: 'NODE::04' },
+  { icon: Brain, title: 'SCP INTELIGENCIA', code: '0x005_NEURAL', description: 'Proporcionar información clave para la toma de decisiones estratégicas.', color: '#f97316', latency: '10ms', tag: 'NODE::05' },
+  { icon: Shield, title: 'SCP POLICÍA', code: '0x006_ENFORCE', description: 'Optimizar las actividades diarias de los elementos de seguridad.', color: '#6366f1', latency: '5ms', tag: 'NODE::06' },
 ];
 
-// Variantes para animación en cascada 3D (de frente hacia atrás)
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 80,
-    z: -120,
-    rotateX: 18,
-    scale: 0.88,
-  },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    z: 0,
-    rotateX: 0,
-    scale: 1,
-    transition: {
-      duration: 0.75,
-      delay: i * 0.13,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
 export function IntegrationSection() {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(gridRef, { once: true, amount: 0.1 });
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.1 });
 
   return (
-    <section id="integracion" className="py-20 md:py-28 bg-[#0d1b2e] overflow-hidden relative">
+    <section className="py-32 bg-[#080d1a] relative overflow-hidden" ref={containerRef}>
+      {/* MALLA TÁCTICA DE FONDO */}
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        style={{ backgroundImage: `radial-gradient(#fff 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
 
-      {/* Fondo sutil con cuadrícula táctica */}
-      <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
-          `,
-          backgroundSize: '48px 48px',
-        }}
-      />
-
-      {/* Degradado superior e inferior para suavizar */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#1a2847] to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a0f1e] to-transparent pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
-        <div className="text-center mb-14 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center justify-center gap-3 mb-4"
-          >
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: 40 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="h-[1px] bg-red-500/70"
-            />
-            <span className="text-red-400 text-xs uppercase tracking-[0.25em] font-mono">
-              Ecosistema Integrado
-            </span>
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: 40 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="h-[1px] bg-red-500/70"
-            />
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* HEADER PRINCIPAL */}
+        <div className="mb-20">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex items-center gap-2 mb-4">
+            <span className="w-8 h-[1px] bg-red-600" />
+            <span className="font-mono text-[10px] text-red-500 uppercase tracking-[0.4em] font-bold">Ecosistema Sincronizado V4.0</span>
           </motion.div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
-            <SplitWords text="Conoce la Integración SCP" delay={0.2} stagger={0.06} as="span" />
+          <h2 className="text-5xl md:text-6xl font-light text-white tracking-tight uppercase">
+            Conoce la <span className="font-black italic">Integración SCP</span>
           </h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-white/50 text-base md:text-lg max-w-2xl mx-auto"
-          >
-            Centraliza la <span className="text-white/80 font-medium">gestión de crisis</span> en una
-            plataforma unificada. Garantice la{' '}
-            <span className="text-white/80 font-medium">interoperabilidad</span> de sus sistemas de mando.
-          </motion.p>
+          <p className="text-slate-400 font-mono text-xs mt-6 max-w-2xl leading-relaxed">
+            [SISTEMA UNIFICADO]: Centraliza la gestión de crisis en una plataforma unificada. Garantice la interoperabilidad de sus sistemas de mando.
+          </p>
         </div>
 
-        {/* Grid con perspectiva 3D */}
-        <div
-          ref={gridRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
-          style={{ perspective: '1200px', perspectiveOrigin: '50% 30%' }}
-        >
+        {/* GRID DE MÓDULOS */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {integrations.map((item, index) => (
-            <motion.div
-              key={index}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? 'visible' : 'hidden'}
-              whileHover={{
-                y: -8,
-                scale: 1.02,
-                rotateX: -2,
-                transition: { duration: 0.3, ease: 'easeOut' },
-              }}
-              className="relative group rounded-2xl p-6 md:p-7 cursor-pointer"
-              style={{
-                background: `linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)`,
-                border: `1px solid ${item.border}`,
-                boxShadow: `0 0 0 0 ${item.glow}`,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              {/* Glow de fondo al hover */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at 30% 20%, ${item.glow} 0%, transparent 70%)` }}
-              />
-
-              {/* Número de módulo */}
-              <div className="absolute top-5 right-5 font-mono text-xs text-white/15 tracking-widest">
-                {item.tag}
-              </div>
-
-              {/* Línea superior de color */}
-              <div className="absolute top-0 left-6 right-6 h-[1px] rounded-full overflow-hidden">
-                <motion.div
-                  className={`h-full bg-gradient-to-r ${item.color}`}
-                  initial={{ scaleX: 0, originX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3 + index * 0.12, ease: 'easeOut' }}
-                />
-              </div>
-
-              {/* Ícono */}
-              <div className="mb-5 mt-2 relative z-10">
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 6 }}
-                  transition={{ type: 'spring', stiffness: 350 }}
-                  className={`w-13 h-13 w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg`}
-                >
-                  <item.icon className="w-6 h-6 text-white" />
-                </motion.div>
-              </div>
-
-              {/* Texto */}
-              <div className="relative z-10">
-                <h3 className="text-white font-bold text-sm md:text-base mb-2 tracking-wide">
-                  {item.title}
-                </h3>
-                <p className="text-white/45 text-sm leading-relaxed group-hover:text-white/60 transition-colors duration-300">
-                  {item.description}
-                </p>
-              </div>
-
-              {/* Flecha hover */}
-              <motion.div
-                initial={{ opacity: 0, x: -6 }}
-                whileHover={{ opacity: 1, x: 0 }}
-                className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300"
-              >
-                <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center`}>
-                  <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
-              </motion.div>
-            </motion.div>
+            <HardwareModule key={index} item={item} index={index} isInView={isInView} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function HardwareModule({ item, index, isInView }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay: index * 0.1, duration: 0.8 }}
+      className="group relative h-[520px] bg-[#0c162d] border border-white/10 rounded-sm overflow-hidden flex flex-col transition-all duration-500 hover:border-red-500/50"
+    >
+      {/* EFECTO CRISTAL / SCANLINE */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] z-20 opacity-20" />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{ background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.05), transparent 40%)` }} />
+
+      <div className="relative z-10 p-8 flex flex-col h-full">
+        {/* TOP: TAGS DE IDENTIFICACIÓN */}
+        <div className="flex justify-between items-start mb-8 font-mono">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-[10px] text-white/40">
+              <Terminal size={10} className="text-red-500" />
+              <span>{item.tag}</span>
+            </div>
+            <div className="text-[12px] text-white/80 font-bold tracking-tighter italic">{item.code}</div>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[8px] text-emerald-500 font-bold tracking-widest uppercase">Live</span>
+            </div>
+          </div>
+        </div>
+
+        {/* CENTER: CORE ICON & VISUALIZER */}
+        <div className="flex-1 flex flex-col items-center justify-center relative mb-6">
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
+             <Target size={200} className="group-hover:rotate-90 transition-transform duration-[4000ms]" />
+          </div>
+          
+          <motion.div 
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="relative p-6 bg-[#080d1a] border border-white/5 shadow-2xl z-10"
+          >
+            <div className="absolute inset-0 blur-2xl opacity-20 group-hover:opacity-50 transition-all" style={{ backgroundColor: item.color }} />
+            <item.icon size={48} className="relative text-white group-hover:scale-110 transition-transform" />
+          </motion.div>
+        </div>
+
+        {/* INFO TEXTUAL */}
+        <div className="mb-8 border-l-2 border-red-600 pl-4">
+          <h3 className="text-white font-black text-xl tracking-tight mb-2 uppercase italic">
+            {item.title}
+          </h3>
+          <p className="text-slate-400 text-xs leading-relaxed font-medium">
+            {item.description}
+          </p>
+        </div>
+
+        {/* BOTTOM: DATAGRID (ESTRUCTURA DE CELDAS) */}
+        <div className="mt-auto space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            {/* Celda Latencia */}
+            <div className="bg-black/30 border border-white/5 p-3 rounded-sm flex items-center gap-3">
+              <Clock className="text-red-500/50" size={16} />
+              <div className="flex flex-col">
+                <span className="text-[8px] text-white/20 uppercase font-mono leading-none mb-1 tracking-widest">Latency</span>
+                <span className="text-[11px] text-white font-mono font-bold leading-none italic">// {item.latency}</span>
+              </div>
+            </div>
+
+            {/* Celda Status */}
+            <div className="bg-black/30 border border-white/5 p-3 rounded-sm flex items-center gap-3">
+              <DatabaseZap className="text-red-500/50" size={16} />
+              <div className="flex flex-col">
+                <span className="text-[8px] text-white/20 uppercase font-mono leading-none mb-1 tracking-widest">Status</span>
+                <span className="text-[11px] text-white font-mono font-bold leading-none italic">// ONLINE</span>
+              </div>
+            </div>
+
+            {/* Celda Encryption */}
+            <div className="bg-black/30 border border-white/5 p-3 rounded-sm flex items-center gap-3">
+              <Wifi className="text-red-500/50" size={16} />
+              <div className="flex flex-col">
+                <span className="text-[8px] text-white/20 uppercase font-mono leading-none mb-1 tracking-widest">Encrypt</span>
+                <span className="text-[11px] text-white font-mono font-bold leading-none italic">// AES_256</span>
+              </div>
+            </div>
+
+            {/* Celda Security */}
+            <div className="bg-black/30 border border-red-500/20 p-3 rounded-sm flex items-center gap-3 group-hover:bg-red-500/5 transition-colors">
+              <Lock className="text-red-600" size={16} />
+              <div className="flex flex-col">
+                <span className="text-[8px] text-red-500/40 uppercase font-mono leading-none mb-1 tracking-widest italic font-black">Secure</span>
+                <span className="text-[11px] text-red-500 font-mono font-bold leading-none tracking-tighter">CHANNEL_V4</span>
+              </div>
+            </div>
+          </div>
+
+          {/* BARRA DE PROCESAMIENTO DINÁMICA */}
+          <div className="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+             <motion.div 
+               animate={{ x: ['-100%', '200%'] }}
+               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+               className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-transparent via-red-600 to-transparent"
+             />
+          </div>
+        </div>
+      </div>
+
+      {/* TORNILLOS DE FIJACIÓN */}
+      <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
+      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
+      <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
+      <div className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
+    </motion.div>
   );
 }
