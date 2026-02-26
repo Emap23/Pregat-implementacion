@@ -84,8 +84,7 @@ export function StatsSection() {
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
-          backgroundImage:
-            'url(https://images.unsplash.com/photo-1672081420292-1be6ddf6f2d1?q=80&w=1080)',
+          backgroundImage: 'url(/img/queno.webp)',
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

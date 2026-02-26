@@ -38,7 +38,7 @@ export function SCPSection() {
           >
             <div className="w-12 h-0.5 bg-red-600"></div>
             <p className="text-white/80 text-xs sm:text-sm uppercase tracking-wide">
-              Soluciones Tecnológicas en Seguridad
+              Impacto y Credibilidad Gubernamental 
             </p>
           </motion.div>
 
@@ -49,7 +49,7 @@ export function SCPSection() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-            Sistema de Control Policial (SCP)
+             Sistema Ciudadano de Protección (SCP)
           </motion.h2>
 
           <motion.p
@@ -59,9 +59,9 @@ export function SCPSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-white/80 text-base md:text-lg leading-relaxed mb-8 md:mb-10"
           >
-            El <span className="font-semibold text-white">Sistema de Control Policial (SCP)</span> automatiza la
-            inteligencia operativa y la gestión de alertas en tiempo
-            real, optimizando el control del <span className="font-semibold text-white">estado de fuerza</span>.
+            El <span className="font-semibold text-white">Entendemos que la seguridad pública es el pilar </span> de un gobierno fuerte y cercano a la gente. Conectamos oficiales 
+            <span className="font-semibold text-white">   en campo con centros de mando en tiempo real. 
+</span>.
           </motion.p>
 
           <motion.div
