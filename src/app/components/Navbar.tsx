@@ -49,32 +49,23 @@ export function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      {/* 🚨 SIRENAS ULTRA-VISIBLES (CAPA TÁCTICA) */}
+      {/* Sirenas */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none h-20">
-        {/* Foco Rojo (Izquierda - Detrás del Logo) */}
-        <div 
+        <div
           className="absolute -top-10 -left-10 w-[350px] h-[250px] animate-siren-red opacity-100"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0.15) 45%, transparent 75%)'
-          }} 
+          style={{ background: 'radial-gradient(circle at center, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0.15) 45%, transparent 75%)' }}
         />
-        
-        {/* Foco Azul (Derecha - Detrás de Contacto) */}
-        <div 
+        <div
           className="absolute -top-10 -right-10 w-[350px] h-[250px] animate-siren-blue opacity-100"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(0,80,255,0.5) 0%, rgba(0,80,255,0.15) 45%, transparent 75%)'
-          }} 
+          style={{ background: 'radial-gradient(circle at center, rgba(0,80,255,0.5) 0%, rgba(0,80,255,0.15) 45%, transparent 75%)' }}
         />
-
-        {/* Línea de escaneo superior parpadeante */}
         <div className="absolute top-0 left-0 w-full h-[2px] flex opacity-50">
           <div className="w-1/2 h-full bg-red-600 shadow-[0_0_20px_red] animate-pulse" />
           <div className="w-1/2 h-full bg-blue-600 shadow-[0_0_20px_blue] animate-pulse [animation-delay:0.4s]" />
         </div>
       </div>
 
-      {/* Línea Táctica inferior que brilla al hacer scroll */}
+      {/* Línea táctica inferior */}
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: isScrolled ? 1 : 0 }}
@@ -85,7 +76,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="flex items-center justify-between h-20">
 
-          {/* Logo con Resplandor Reactivo */}
+          {/* Logo */}
           <motion.button
             onClick={() => scrollToSection('hero')}
             whileHover={{ scale: 1.04 }}
@@ -102,12 +93,17 @@ export function Navbar() {
               <motion.button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
+                // ── CAMBIO: activo y hover tienen el mismo color (text-white/50 → white)
+                // El link activo NO se pone blanco — solo aparece la línea roja
                 className={`relative transition-all duration-300 font-bold text-xs uppercase tracking-[0.2em] group ${
-                  activeId === link.id ? 'text-white' : 'text-white/50 hover:text-white'
+                  activeId === link.id
+                    ? 'text-white/50'   // ← mismo tono que los demás, sin cambio de color
+                    : 'text-white/50 hover:text-white'
                 }`}
               >
                 <span className="relative z-10">{link.label}</span>
-                
+
+                {/* Solo la línea roja indica el activo */}
                 <AnimatePresence>
                   {activeId === link.id && (
                     <motion.span
@@ -122,22 +118,15 @@ export function Navbar() {
               </motion.button>
             ))}
 
-            {/* Central de Contacto (Alerta Máxima) */}
+            {/* ── CAMBIO: botón rojo estático, sin animaciones de color ── */}
             <motion.button
               onClick={() => scrollToSection('contacto')}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 0 30px rgba(220,38,38,0.5), 0 0 10px rgba(0,80,255,0.5)',
-              }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative overflow-hidden bg-red-600 text-white px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-tighter shadow-xl group flex items-center gap-2 border border-white/20"
+              className="relative bg-red-600 text-white px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-tighter shadow-xl flex items-center gap-2 border border-white/20"
             >
-              <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-30 animate-pulse" />
               <ShieldAlert size={14} className="animate-bounce" />
-              <span className="relative z-10">Central de Contacto</span>
-              
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 animate-scanline" 
-                   style={{ width: '200%', left: '-100%' }} />
+              <span>Central de Contacto</span>
             </motion.button>
           </div>
 
@@ -150,7 +139,7 @@ export function Navbar() {
           </motion.button>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (

@@ -1,12 +1,8 @@
 // 📁 src/app/components/ProductsSection.tsx
-// CAMBIOS vs original:
-//  1. bg-[#060d1a] → reemplazado con fondo sólido que TAPA las neuronas
-//  2. Título "Nuestros Productos" → efecto LED sirena rojo/azul
-//  3. Cards idénticas al original (sin tocar el scroll sticky)
-
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Shield, Brain, Smartphone, Monitor, Lock, Cpu, Globe, Eye, ChevronRight, ArrowDown } from 'lucide-react';
+import { NeuralBackground } from './NeuralBackground';
 
 const products = [
   {
@@ -67,7 +63,7 @@ const products = [
   },
 ];
 
-// ─── Card individual — IDÉNTICA al original ───────────────────────────────────
+// ─── Card — IDÉNTICA AL ORIGINAL, sin cambiar una sola línea ─────────────────
 function ProductCard({ product, index, total }: { product: typeof products[0]; index: number; total: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -173,16 +169,26 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
   );
 }
 
-// ─── Sección ─────────────────────────────────────────────────────────────────
+// ─── Sección ──────────────────────────────────────────────────────────────────
 export function ProductsSection() {
   return (
     <>
       {/*
-        CAMBIO CLAVE: bg-[#060d1a] sólido que TAPA las neuronas del fondo.
-        Las neuronas son position:fixed z-index:-1, así que cualquier
-        fondo opaco en un elemento con z-index >= 0 las oculta automáticamente.
+        isolation:isolate crea un stacking context propio.
+        Las neuronas van en z-index:-1 DENTRO de este contexto → quedan
+        detrás de las cards pero no interfieren con el sticky scroll.
       */}
-      <section id="productos" style={{ backgroundColor: '#060d1a', position: 'relative', zIndex: 0 }}>
+      <section
+        id="productos"
+        style={{ backgroundColor: '#060d1a', position: 'relative', isolation: 'isolate' }}
+      >
+        {/* Neuronas — atrás de todo dentro de esta sección */}
+        <div
+          aria-hidden="true"
+          style={{ position: 'absolute', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}
+        >
+          <NeuralBackground />
+        </div>
 
         {/* Header */}
         <div className="max-w-7xl mx-auto px-6 pt-20 pb-8 text-center">
@@ -200,8 +206,7 @@ export function ProductsSection() {
                 transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
             </div>
 
-            {/* ── TÍTULO CON EFECTO SIRENA ── */}
-            <h2 className="siren-glow text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4">
+            <h2 className="ps-title text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4">
               Nuestros Productos
             </h2>
 
@@ -220,58 +225,28 @@ export function ProductsSection() {
           </motion.div>
         </div>
 
-        {/* Cards apiladas — sin cambios */}
-        <div>
-          {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} total={products.length} />
-          ))}
-        </div>
+        {/* Cards — sin ningún div wrapper extra */}
+        {products.map((product, index) => (
+          <ProductCard key={product.id} product={product} index={index} total={products.length} />
+        ))}
 
         <div className="h-24" />
       </section>
 
-      {/* ── Keyframes del efecto sirena ── */}
       <style>{`
-        @keyframes sirenR {
-          0%, 49%, 100% {
-            text-shadow:
-              0 0 12px rgba(220,38,38,0),
-              0 0 35px rgba(220,38,38,0),
-              0 0 70px rgba(220,38,38,0);
-          }
-          8%, 40% {
-            text-shadow:
-              0 0 12px rgba(220,38,38,1),
-              0 0 35px rgba(220,38,38,0.7),
-              0 0 70px rgba(220,38,38,0.4),
-              0 0 140px rgba(220,38,38,0.15);
-          }
+        .ps-title {
+          color: #fff;
+          animation: psTR 1.4s ease-in-out infinite,
+                     psTB 1.4s ease-in-out .7s infinite;
         }
-        @keyframes sirenB {
-          0%, 49%, 100% {
-            text-shadow:
-              0 0 12px rgba(37,99,235,0),
-              0 0 35px rgba(37,99,235,0),
-              0 0 70px rgba(37,99,235,0);
-          }
-          58%, 90% {
-            text-shadow:
-              0 0 12px rgba(37,99,235,1),
-              0 0 35px rgba(59,130,246,0.7),
-              0 0 70px rgba(37,99,235,0.4),
-              0 0 140px rgba(37,99,235,0.15);
-          }
+        @keyframes psTR {
+          0%,100% { text-shadow: 0 0 18px rgba(220,38,38,.95), 0 0 55px rgba(220,38,38,.5), 0 0 110px rgba(220,38,38,.25); }
+          55%,70%  { text-shadow: none; }
         }
-
-        /* Superponemos ambas animaciones con offset de fase */
-        .siren-glow {
-          animation:
-            sirenR 1.2s ease-in-out infinite,
-            sirenB 1.2s ease-in-out 0.6s infinite;
+        @keyframes psTB {
+          0%,100% { text-shadow: none; }
+          30%     { text-shadow: 0 0 18px rgba(37,99,235,.95), 0 0 55px rgba(37,99,235,.5), 0 0 110px rgba(37,99,235,.25); }
         }
-
-        /* Versión para cualquier otro título que quieras con el mismo efecto:
-           agrega className="siren-glow" al elemento */
       `}</style>
     </>
   );

@@ -1,12 +1,4 @@
 // 📁 src/app/App.tsx
-//
-// ÚNICO CAMBIO respecto al original:
-//   + import { NeuralBackground }
-//   + <NeuralBackground /> como primer hijo del fragment
-//
-// El resto es IDÉNTICO al original — ProductsSection y todo lo demás
-// queda exactamente igual.
-
 import { Navbar }              from './components/Navbar';
 import { HeroSection }         from './components/HeroSection';
 import { SCPSection }          from './components/SCPSection';
@@ -21,20 +13,19 @@ import { CustomCursor }        from './components/CustomCursor';
 import { SmoothScroll }        from './components/SmoothScroll';
 import { BackToTop }           from './components/BackToTop';
 import { PREGATMarquee }       from './components/Marquee';
-import { NeuralBackground }    from './components/NeuralBackground';  // ← NUEVO
+import { SirenOverlay }        from './components/SirenOverlay';  // ← NUEVO
 
 export default function App() {
   return (
     <>
-      {/* ← NUEVO: va primero, position:fixed z-index:-1, no afecta layout */}
-      <NeuralBackground />
+      {/* Sirena en toda la página — fixed, z-index alto, pointer-events:none */}
+      <SirenOverlay />
 
       <Preloader />
       <CustomCursor />
       <SmoothScroll />
       <BackToTop />
 
-      {/* Exactamente igual al original */}
       <div className="min-h-screen cursor-none">
         <Navbar />
         <HeroSection />
