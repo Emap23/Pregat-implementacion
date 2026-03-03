@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 import { motion } from 'motion/react';
 // Busca esta línea y cámbiala:
-import logo from "../../../img/logopregat.png";
+import logo from "../../../img/LOGOPREGAT.svg";
 
 export function Footer() {
   return (

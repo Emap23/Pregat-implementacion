@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 
-import logo from '../../../img/logopregat.png';
+import logo from '../../../img/LOGOPREGAT.svg';
 import scpBackground from '../../../img/SCP1.webp';
 
 import { useParallax } from './useParallax';
@@ -117,7 +117,7 @@ export function HeroSection() {
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mb-8 md:mb-12"
         >
-          <img src={logoPath} alt="PREGAT" className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto" />
+          <img src={logoPath} alt="PREGAT" className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto" />
         </motion.div>
 
         <div className="max-w-3xl">

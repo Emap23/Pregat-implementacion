@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 
-const LOGO_SRC = '/img/logopregat.png';
+const LOGO_SRC = '/img/LOGOPREGAT.svg';
 
 export function Preloader() {
   const [phase, setPhase] = useState<'initializing' | 'loading' | 'finalizing' | 'exit'>('initializing');
@@ -89,8 +89,8 @@ export function Preloader() {
               <img 
                 src={LOGO_SRC} 
                 alt="Logo" 
-                className="h-16 md:h-20 w-auto brightness-125 contrast-125"
-                style={{ filter: 'drop-shadow(0 0 15px rgba(220,38,38,0.4))' }}
+                className="h-24 md:h-32 w-auto brightness-125 contrast-125"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(220,38,38,0.5))' }}
               />
               
               {/* Línea de escaneo láser sobre el logo */}

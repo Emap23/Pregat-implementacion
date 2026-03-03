@@ -1,24 +1,43 @@
-import { motion, AnimatePresence } from 'motion/react';
-import { useState, useEffect } from 'react';
-import { Menu, X, ShieldAlert } from 'lucide-react';
-import logo from '../../../img/logopregat.png';
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import {
+  Menu,
+  X,
+  ShieldAlert,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import HTMLFlipBook from "react-pageflip";
+import { Document, Page, pdfjs } from "react-pdf";
+import logo from "../../../img/LOGOPREGAT.svg";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const navLinks = [
-  { label: 'Sistema SCP', id: 'scp' },
-  { label: 'Integración', id: 'integracion' },
-  { label: 'Diferenciadores', id: 'diferenciadores' },
-  { label: 'Contacto', id: 'contacto' },
+  { label: "Sistema SCP", id: "scp" },
+  { label: "Integración", id: "integracion" },
+  { label: "Diferenciadores", id: "diferenciadores" },
+  { label: "Contacto", id: "contacto" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeId, setActiveId] = useState('');
+  const [activeId, setActiveId] = useState("");
+  const [isBookOpen, setIsBookOpen] = useState(false);
 
+  const pdfUrl = "/pregat-blog.pdf";
+
+  // Scroll detection
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      const sections = [...navLinks].reverse().map(l => document.getElementById(l.id));
+
+      const sections = [...navLinks]
+        .reverse()
+        .map((l) => document.getElementById(l.id));
+
       for (const section of sections) {
         if (section && window.scrollY >= section.offsetTop - 200) {
           setActiveId(section.id);
@@ -26,145 +45,234 @@ export function Navbar() {
         }
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // ESC key to close PDF
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsBookOpen(false);
+      }
+    };
+
+    if (isBookOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isBookOpen]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
+    if (!el) return;
+
+    const yOffset = -96; // compensación nueva altura navbar
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: "smooth" });
+    setIsMobileMenuOpen(false);
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-[#030712]/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] border-b border-white/5'
-          : 'bg-transparent'
-      }`}
-    >
-      {/* Sirenas */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none h-20">
-        <div
-          className="absolute -top-10 -left-10 w-[350px] h-[250px] animate-siren-red opacity-100"
-          style={{ background: 'radial-gradient(circle at center, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0.15) 45%, transparent 75%)' }}
-        />
-        <div
-          className="absolute -top-10 -right-10 w-[350px] h-[250px] animate-siren-blue opacity-100"
-          style={{ background: 'radial-gradient(circle at center, rgba(0,80,255,0.5) 0%, rgba(0,80,255,0.15) 45%, transparent 75%)' }}
-        />
-        <div className="absolute top-0 left-0 w-full h-[2px] flex opacity-50">
-          <div className="w-1/2 h-full bg-red-600 shadow-[0_0_20px_red] animate-pulse" />
-          <div className="w-1/2 h-full bg-blue-600 shadow-[0_0_20px_blue] animate-pulse [animation-delay:0.4s]" />
-        </div>
-      </div>
-
-      {/* Línea táctica inferior */}
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: isScrolled ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent shadow-[0_0_20px_rgba(220,38,38,0.8)] origin-center"
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div className="flex items-center justify-between h-20">
-
-          {/* Logo */}
-          <motion.button
-            onClick={() => scrollToSection('hero')}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            className="flex items-center relative group"
+    <>
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-24 flex items-center ${
+          isScrolled
+            ? "bg-[#030712]/95 backdrop-blur-xl border-b border-white/5"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-between">
+          <button
+            onClick={() => scrollToSection("hero")}
+            className="flex items-center"
           >
-            <div className="absolute inset-0 bg-red-600/30 blur-2xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500" />
-            <img src={logo} alt="PREGAT" className="h-12 md:h-14 w-auto relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
-          </motion.button>
+            <img src={logo} alt="PREGAT" className="h-16 w-auto" />
+          </button>
 
-          {/* Desktop links */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <motion.button
+              <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                // ── CAMBIO: activo y hover tienen el mismo color (text-white/50 → white)
-                // El link activo NO se pone blanco — solo aparece la línea roja
-                className={`relative transition-all duration-300 font-bold text-xs uppercase tracking-[0.2em] group ${
+                className={`font-bold text-xs uppercase tracking-[0.2em] transition-all ${
                   activeId === link.id
-                    ? 'text-white/50'   // ← mismo tono que los demás, sin cambio de color
-                    : 'text-white/50 hover:text-white'
+                    ? "text-white"
+                    : "text-white/50 hover:text-white"
                 }`}
               >
-                <span className="relative z-10">{link.label}</span>
-
-                {/* Solo la línea roja indica el activo */}
-                <AnimatePresence>
-                  {activeId === link.id && (
-                    <motion.span
-                      layoutId="activeTab"
-                      className="absolute -bottom-2 left-0 w-full h-[2px] bg-red-600 shadow-[0_0_15px_#dc2626,0_0_5px_#fff]"
-                      initial={{ opacity: 0, scaleX: 0 }}
-                      animate={{ opacity: 1, scaleX: 1 }}
-                      exit={{ opacity: 0, scaleX: 0 }}
-                    />
-                  )}
-                </AnimatePresence>
-              </motion.button>
+                {link.label}
+              </button>
             ))}
 
-            {/* ── CAMBIO: botón rojo estático, sin animaciones de color ── */}
-            <motion.button
-              onClick={() => scrollToSection('contacto')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative bg-red-600 text-white px-6 py-2.5 rounded-sm font-black text-[10px] uppercase tracking-tighter shadow-xl flex items-center gap-2 border border-white/20"
+            <button
+              onClick={() => setIsBookOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all"
             >
-              <ShieldAlert size={14} className="animate-bounce" />
+              <BookOpen size={14} className="text-red-500" />
+              <span>Blog</span>
+            </button>
+
+            <button
+              onClick={() => scrollToSection("contacto")}
+              className="bg-red-600 text-white px-6 py-2.5 rounded-sm font-black text-[10px] uppercase flex items-center gap-2 shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:bg-red-700 transition-all"
+            >
+              <ShieldAlert size={14} />
               <span>Central de Contacto</span>
-            </motion.button>
+            </button>
           </div>
 
-          {/* Mobile button */}
-          <motion.button
+          <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 border border-white/10 rounded-lg bg-white/5 relative"
+            className="md:hidden text-white"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
+          </button>
         </div>
-      </div>
+      </motion.nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {isBookOpen && (
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 100 }}
-            className="fixed inset-y-0 right-0 w-64 bg-[#030712]/98 backdrop-blur-2xl border-l border-red-900/50 p-6 md:hidden z-[60]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsBookOpen(false)}
+            className="fixed inset-0 z-[100] bg-[#030712]/98 backdrop-blur-md flex flex-col overflow-hidden"
           >
-            <div className="flex flex-col space-y-6 mt-16">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`text-left text-sm font-black uppercase tracking-widest transition-colors ${
-                    activeId === link.id ? 'text-red-500' : 'text-white/70 hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
+            <div className="h-16 flex justify-between items-center px-8 border-b border-white/5 bg-black/40">
+              <span className="text-white/70 font-mono text-[10px] tracking-[0.3em] uppercase">
+                SCP_READER_V2.0
+              </span>
+
+              <button
+                onClick={() => setIsBookOpen(false)}
+                className="text-white/40 hover:text-white flex items-center gap-2 font-mono text-xs uppercase"
+              >
+                ESC_CERRAR <X size={18} />
+              </button>
+            </div>
+
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 relative w-full flex items-center justify-center bg-[#050810]"
+            >
+              <FlipBookContent pdfUrl={pdfUrl} />
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
+  );
+}
+
+function FlipBookContent({ pdfUrl }: { pdfUrl: string }) {
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [dim, setDim] = useState({ w: 0, h: 0 });
+  const bookRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!containerRef.current) return;
+
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+      const isMobile = window.innerWidth < 1024;
+      const aspectRatio = 1 / 1.414;
+
+      let pageWidth;
+      let pageHeight;
+
+      if (isMobile) {
+        pageWidth = containerWidth * 0.95;
+        pageHeight = pageWidth / aspectRatio;
+
+        if (pageHeight > containerHeight * 0.9) {
+          pageHeight = containerHeight * 0.9;
+          pageWidth = pageHeight * aspectRatio;
+        }
+      } else {
+        pageHeight = containerHeight * 0.92;
+        pageWidth = pageHeight * aspectRatio;
+
+        if (pageWidth * 2 > containerWidth * 0.95) {
+          pageWidth = (containerWidth * 0.95) / 2;
+          pageHeight = pageWidth / aspectRatio;
+        }
+      }
+
+      setDim({
+        w: Math.floor(pageWidth),
+        h: Math.floor(pageHeight),
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full flex items-center justify-center relative"
+    >
+      <Document
+        file={pdfUrl}
+        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+      >
+        {numPages && dim.w > 0 && (
+          <HTMLFlipBook
+            width={dim.w}
+            height={dim.h}
+            size="fixed"
+            showCover
+            ref={bookRef}
+            usePortrait={window.innerWidth < 1024}
+            className="shadow-2xl max-w-full"
+          >
+            {Array.from(new Array(numPages), (_, i) => (
+              <div key={i} className="bg-white">
+                <Page
+                  pageNumber={i + 1}
+                  width={dim.w}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                />
+              </div>
+            ))}
+          </HTMLFlipBook>
+        )}
+      </Document>
+
+      {numPages && (
+        <div className="absolute bottom-8 flex items-center gap-10 z-50 bg-black/80 border border-white/10 px-6 py-2 rounded-full">
+          <button
+            onClick={() => bookRef.current.pageFlip().flipPrev()}
+            className="text-white/30 hover:text-red-600 transition-all"
+          >
+            <ChevronLeft size={30} />
+          </button>
+
+          <span className="text-red-600 font-black text-xs tracking-[0.2em]">
+            {numPages} PÁGS
+          </span>
+
+          <button
+            onClick={() => bookRef.current.pageFlip().flipNext()}
+            className="text-white/30 hover:text-red-600 transition-all"
+          >
+            <ChevronRight size={30} />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

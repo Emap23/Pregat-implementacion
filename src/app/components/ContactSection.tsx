@@ -152,15 +152,16 @@ export function ContactSection() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.82 }}
-                    animate-x={shake.includes('message') ? [0, -6, 6, -4, 4, 0] : 0}
                   >
                     <label className="block text-white/50 text-xs uppercase tracking-widest mb-2">Mensaje *</label>
-                    <textarea
+                    <motion.textarea
                       name="message" value={form.message} onChange={handleChange}
                       onFocus={() => setFocused('message')} onBlur={() => setFocused(null)}
                       rows={5} placeholder="Cuéntanos sobre tu proyecto o necesidad..."
                       className={`w-full bg-white/5 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 outline-none resize-none transition-all duration-300
                         ${errors.message ? 'border border-red-500/70' : focused === 'message' ? 'border border-red-500/50' : 'border border-white/10'}`}
+                      animate={shake.includes('message') ? { x: [0, -6, 6, -4, 4, 0] } : {}}
+                      transition={{ duration: 0.5 }}
                     />
                     {errors.message && (
                       <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-1.5 mt-1.5 text-red-400 text-xs">

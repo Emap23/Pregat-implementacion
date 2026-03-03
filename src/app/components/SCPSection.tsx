@@ -2,8 +2,16 @@
 import { motion } from 'motion/react';
 import { useParallax } from './useParallax';
 
+// Importación de la imagen desde tu carpeta local /img
+// Se usa ../../ para salir de components y app, y entrar a la carpeta img
+import policiaImg from '../../../img/Policia_inicial.png';
+
 export function SCPSection() {
   const parallaxBg = useParallax({ speed: 0.2 });
+
+  // Esta constante asegura que obtengas el string de la ruta, 
+  // ya sea que uses Vite, Webpack o el optimizador de Next.js.
+  const imageSrc = typeof policiaImg === 'string' ? policiaImg : (policiaImg as any).src;
 
   return (
     <section id="scp" className="relative min-h-screen flex items-center overflow-hidden bg-[#1a2847]">
@@ -13,7 +21,7 @@ export function SCPSection() {
         ref={parallaxBg}
         className="absolute inset-0 z-0 scale-110 opacity-20"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1727884032260-6bf73ba803b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMG9mZmljZXIlMjBwb2xpY2UlMjB1bmlmb3JtJTIwbGF0aW5vfGVufDF8fHx8MTc3MTIyNDQwMnww&ixlib=rb-4.1.0&q=80&w=1080)',
+          backgroundImage: `url(${imageSrc})`,
           backgroundSize: 'cover',
           backgroundPosition: 'left center',
         }}
@@ -49,7 +57,7 @@ export function SCPSection() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-             Sistema Ciudadano de Protección (SCP)
+            Sistema Ciudadano de Protección (SCP)
           </motion.h2>
 
           <motion.p
@@ -59,9 +67,8 @@ export function SCPSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-white/80 text-base md:text-lg leading-relaxed mb-8 md:mb-10"
           >
-            El <span className="font-semibold text-white">Entendemos que la seguridad pública es el pilar </span> de un gobierno fuerte y cercano a la gente. Conectamos oficiales 
-            <span className="font-semibold text-white">   en campo con centros de mando en tiempo real. 
-</span>.
+            Entendemos que la seguridad pública es el pilar de un gobierno fuerte y cercano a la gente. Conectamos oficiales 
+            <span className="font-semibold text-white"> en campo con centros de mando en tiempo real.</span>
           </motion.p>
 
           <motion.div
@@ -97,9 +104,9 @@ export function SCPSection() {
           className="hidden lg:block"
         >
           <img
-            src="https://images.unsplash.com/photo-1727884032260-6bf73ba803b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMG9mZmljZXIlMjBwb2xpY2UlMjB1bmlmb3JtJTIwbGF0aW5vfGVufDF8fHx8MTc3MTIyNDQwMnww&ixlib=rb-4.1.0&q=80&w=1080"
-            alt="Oficial de Seguridad"
-            className="w-full h-auto object-cover rounded-lg shadow-2xl"
+            src={imageSrc}
+            alt="Oficial de Seguridad - Policia"
+            className="w-full h-auto object-cover rounded-lg shadow-2xl border border-white/10"
           />
         </motion.div>
       </div>

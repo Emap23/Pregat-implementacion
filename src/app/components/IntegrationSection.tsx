@@ -3,6 +3,15 @@ import { MessageCircle, LayoutDashboard, UserCheck, Radio, Brain, Shield, Termin
 import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 
+import ico1 from '../../../img/ico1.jpeg';
+import ico2 from '../../../img/ico2.jpeg';
+import ico3 from '../../../img/ico3.jpeg';
+import ico4 from '../../../img/ico4.jpeg';
+import ico5 from '../../../img/ico5.jpeg';
+import ico6 from '../../../img/ico6.jpeg';
+
+const icons = [ico1, ico2, ico3, ico4, ico5, ico6];
+
 const integrations = [
   { icon: MessageCircle, title: 'SCP CIUDADANO', code: '0x001_COMMS', description: 'Facilita una comunicación directa y transparente con los ciudadanos.', color: '#ef4444', latency: '4ms', tag: 'NODE::01' },
   { icon: LayoutDashboard, title: 'SCP DASHBOARD', code: '0x002_VISUAL', description: 'Integra una herramienta para la toma de decisiones informadas y estratégicas.', color: '#3b82f6', latency: '2ms', tag: 'NODE::02' },
@@ -17,7 +26,7 @@ export function IntegrationSection() {
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
 
   return (
-    <section className="py-32 bg-[#080d1a] relative overflow-hidden" ref={containerRef}>
+    <section className="py-32 bg-[#080d1a] relative overflow-hidden" ref={containerRef} id="integracion">
       {/* MALLA TÁCTICA DE FONDO */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
         style={{ backgroundImage: `radial-gradient(#fff 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
@@ -40,7 +49,7 @@ export function IntegrationSection() {
         {/* GRID DE MÓDULOS */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {integrations.map((item, index) => (
-            <HardwareModule key={index} item={item} index={index} isInView={isInView} />
+            <HardwareModule key={index} item={item} index={index} isInView={isInView} iconImage={icons[index]} />
           ))}
         </div>
       </div>
@@ -48,7 +57,7 @@ export function IntegrationSection() {
   );
 }
 
-function HardwareModule({ item, index, isInView }) {
+function HardwareModule({ item, index, isInView, iconImage }: { item: any; index: number; isInView: boolean; iconImage?: string }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   return (
@@ -97,7 +106,15 @@ function HardwareModule({ item, index, isInView }) {
             className="relative p-6 bg-[#080d1a] border border-white/5 shadow-2xl z-10"
           >
             <div className="absolute inset-0 blur-2xl opacity-20 group-hover:opacity-50 transition-all" style={{ backgroundColor: item.color }} />
-            <item.icon size={48} className="relative text-white group-hover:scale-110 transition-transform" />
+            {iconImage ? (
+              <img 
+                src={iconImage} 
+                alt={item.title} 
+                className="relative w-12 h-12 object-contain group-hover:scale-110 transition-transform" 
+              />
+            ) : (
+              <item.icon size={48} className="relative text-white group-hover:scale-110 transition-transform" />
+            )}
           </motion.div>
         </div>
 
