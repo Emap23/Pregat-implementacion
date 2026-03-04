@@ -184,26 +184,25 @@ function FlipBookContent({ pdfUrl }: { pdfUrl: string }) {
       const containerWidth = containerRef.current.clientWidth;
       const containerHeight = containerRef.current.clientHeight;
       const isMobile = window.innerWidth < 1024;
-      const aspectRatio = 1 / 1.414;
 
       let pageWidth;
       let pageHeight;
 
       if (isMobile) {
-        pageWidth = containerWidth * 0.95;
-        pageHeight = pageWidth / aspectRatio;
+        pageWidth = containerWidth * 0.98;
+        pageHeight = pageWidth * 1.4;
 
-        if (pageHeight > containerHeight * 0.9) {
-          pageHeight = containerHeight * 0.9;
-          pageWidth = pageHeight * aspectRatio;
+        if (pageHeight > containerHeight * 0.95) {
+          pageHeight = containerHeight * 0.95;
+          pageWidth = pageHeight / 1.4;
         }
       } else {
-        pageHeight = containerHeight * 0.92;
-        pageWidth = pageHeight * aspectRatio;
+        pageHeight = containerHeight * 0.95;
+        pageWidth = (pageHeight / 1.4) + 8;
 
-        if (pageWidth * 2 > containerWidth * 0.95) {
-          pageWidth = (containerWidth * 0.95) / 2;
-          pageHeight = pageWidth / aspectRatio;
+        if (pageWidth * 2 > containerWidth) {
+          pageWidth = (containerWidth / 2) - 4;
+          pageHeight = pageWidth * 1.4;
         }
       }
 
@@ -222,11 +221,12 @@ function FlipBookContent({ pdfUrl }: { pdfUrl: string }) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full flex items-center justify-center relative"
+      className="w-full h-full flex items-center justify-center relative bg-[#050810] p-0 m-0"
     >
       <Document
         file={pdfUrl}
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+        loading={<div className="text-white/50 font-mono text-xs">Cargando PDF...</div>}
       >
         {numPages && dim.w > 0 && (
           <HTMLFlipBook
@@ -239,10 +239,11 @@ function FlipBookContent({ pdfUrl }: { pdfUrl: string }) {
             className="shadow-2xl max-w-full"
           >
             {Array.from(new Array(numPages), (_, i) => (
-              <div key={i} className="bg-white">
+              <div key={i}>
                 <Page
                   pageNumber={i + 1}
                   width={dim.w}
+                  height={dim.h}
                   renderAnnotationLayer={false}
                   renderTextLayer={false}
                 />
