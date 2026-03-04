@@ -108,16 +108,16 @@ export function HeroSection() {
       {/* Contenido */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40 w-full"
+        className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-20 sm:py-28 md:py-32 lg:py-40 w-full"
       >
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mb-8 md:mb-12"
+          className="mb-6 sm:mb-8 md:mb-12"
         >
-          <img src={logoPath} alt="PREGAT" className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto" />
+          <img src={logoPath} alt="PREGAT" className="h-14 sm:h-18 md:h-22 lg:h-28 xl:h-32 w-auto" />
         </motion.div>
 
         <div className="max-w-3xl">
@@ -126,29 +126,29 @@ export function HeroSection() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex items-center gap-3 mb-5"
+            className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5"
           >
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: 32 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="h-[1.5px] bg-red-500"
-            />
-            <span className="text-red-400 text-xs sm:text-sm uppercase tracking-widest font-semibold">
+            initial={{ width: 0 }}
+            animate={{ width: 32 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="h-[1.5px] bg-red-500 min-w-[24px] sm:min-w-[32px]"
+          />
+            <span className="text-red-400 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">
               Tecnología para tu gobierno
             </span>
           </motion.div>
 
           {/* ── TÍTULO COMPLETO ANIMADO ── */}
           <h1
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.3] mb-5 md:mb-6"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-[1.3] mb-4 sm:mb-5 md:mb-6"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             style={{ cursor: 'default' }}
           >
             {TITLE_LINES.map((line, lineIdx) => {
               return (
-                <span key={lineIdx} className="flex flex-wrap gap-x-[0.28em] gap-y-1 mb-1">
+                <span key={lineIdx} className="flex flex-wrap gap-x-[0.2em] sm:gap-x-[0.28em] gap-y-0.5 sm:gap-y-1 mb-1">
                   {line.map(({ word, red }) => {
                     const idx = wordIndex++;
                     return (
@@ -196,7 +196,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
-            className="text-white/70 text-base md:text-lg mb-10 max-w-xl leading-relaxed"
+            className="text-white/70 text-sm sm:text-base md:text-lg mb-8 sm:mb-10 max-w-lg sm:max-w-xl leading-relaxed"
           >
             Soluciones integrales para fortalecer a las fuerzas del orden
             y consolidar la confianza social en tu administración.
@@ -206,19 +206,19 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.8 }}
-            className="flex flex-col sm:flex-row gap-4 mb-20"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12 sm:mb-16 md:mb-20"
           >
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(220,38,38,0.6)' }}
               whileTap={{ scale: 0.97 }}
-              className="bg-red-600 text-white px-8 py-4 rounded-full font-semibold text-sm tracking-wide"
+              className="bg-red-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-xs sm:text-sm tracking-wide"
             >
               Solicitar Asesoría
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-8 py-4 rounded-full font-semibold text-sm transition-colors"
+              className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-xs sm:text-sm transition-colors"
             >
               Conocer Soluciones
             </motion.button>
@@ -226,7 +226,7 @@ export function HeroSection() {
         </div>
 
         {/* Stats */}
-        <div className="flex gap-8 md:gap-12">
+        <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-12">
           {[
             { value: '800+',  label: 'Entidades' },
             { value: '316+',  label: 'Policías'  },
@@ -239,8 +239,8 @@ export function HeroSection() {
               transition={{ delay: 2.2 + i * 0.1 }}
               className="text-left"
             >
-              <div className="text-white font-bold text-lg md:text-xl">{stat.value}</div>
-              <div className="text-white/50 text-xs uppercase tracking-wide">{stat.label}</div>
+              <div className="text-white font-bold text-base sm:text-lg md:text-xl">{stat.value}</div>
+              <div className="text-white/50 text-[10px] sm:text-xs uppercase tracking-wide">{stat.label}</div>
             </motion.div>
           ))}
         </div>

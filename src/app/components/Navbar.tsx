@@ -71,7 +71,7 @@ export function Navbar() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    const yOffset = -96; // compensación nueva altura navbar
+    const yOffset = -64; // compensación altura navbar
     const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
     window.scrollTo({ top: y, behavior: "smooth" });
@@ -81,18 +81,18 @@ export function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-24 flex items-center ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-16 sm:h-20 md:h-24 flex items-center ${
           isScrolled
             ? "bg-[#030712]/95 backdrop-blur-xl border-b border-white/5"
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full h-full flex items-center justify-between">
           <button
             onClick={() => scrollToSection("hero")}
             className="flex items-center"
           >
-            <img src={logo} alt="PREGAT" className="h-16 w-auto" />
+            <img src={logo} alt="PREGAT" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto" />
           </button>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -112,7 +112,7 @@ export function Navbar() {
 
             <button
               onClick={() => setIsBookOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all"
+              className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all z-[60] relative"
             >
               <BookOpen size={14} className="text-red-500" />
               <span>Blog</span>
@@ -129,13 +129,56 @@ export function Navbar() {
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white"
+            className="md:hidden text-white p-2"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </motion.nav>
 
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 sm:top-20 left-0 right-0 z-40 bg-[#030712]/98 backdrop-blur-xl border-b border-white/5 md:hidden"
+          >
+            <div className="flex flex-col p-4 space-y-3">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className={`font-bold text-sm uppercase tracking-[0.15em] py-2 text-left transition-all ${
+                    activeId === link.id
+                      ? "text-white"
+                      : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+              <button
+                onClick={() => setIsBookOpen(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-sm text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all w-fit"
+              >
+                <BookOpen size={14} className="text-red-500" />
+                <span>Blog</span>
+              </button>
+              <button
+                onClick={() => scrollToSection("contacto")}
+                className="bg-red-600 text-white px-6 py-3 rounded-sm font-black text-xs uppercase flex items-center gap-2 shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:bg-red-700 transition-all w-fit"
+              >
+                <ShieldAlert size={14} />
+                <span>Contacto</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Blog PDF Modal */}
       <AnimatePresence>
         {isBookOpen && (
           <motion.div
@@ -145,7 +188,7 @@ export function Navbar() {
             onClick={() => setIsBookOpen(false)}
             className="fixed inset-0 z-[100] bg-[#030712]/98 backdrop-blur-md flex flex-col overflow-hidden"
           >
-            <div className="h-16 flex justify-between items-center px-8 border-b border-white/5 bg-black/40">
+            <div className="h-14 sm:h-16 flex justify-between items-center px-4 sm:px-8 border-b border-white/5 bg-black/40">
               <span className="text-white/70 font-mono text-[10px] tracking-[0.3em] uppercase">
                 SCP_READER_V2.0
               </span>

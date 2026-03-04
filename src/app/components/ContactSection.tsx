@@ -56,28 +56,28 @@ export function ContactSection() {
   };
 
   return (
-    <section ref={sectionRef} id="contacto" className="relative py-24 bg-[#0a1628] overflow-hidden">
+    <section ref={sectionRef} id="contacto" className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-[#0a1628] overflow-hidden">
       {/* Fondos decorativos */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-5"
+        <div className="absolute top-0 left-0 w-[300px] sm:w-[400px] md:w-[600px] h-[300px] sm:h-[400px] md:h-[600px] rounded-full opacity-5"
           style={{ background: 'radial-gradient(circle, rgb(220,38,38) 0%, transparent 70%)', transform: 'translate(-30%,-30%)' }} />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-5"
+        <div className="absolute bottom-0 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] rounded-full opacity-5"
           style={{ background: 'radial-gradient(circle, rgb(37,99,235) 0%, transparent 70%)', transform: 'translate(30%,30%)' }} />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-12 md:mb-16"
         >
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <motion.div initial={{ width: 0 }} animate={isInView ? { width: 40 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="h-px bg-red-500" />
-            <span className="text-red-400 text-xs font-mono uppercase tracking-[0.25em]">Hablemos</span>
-            <motion.div initial={{ width: 0 }} animate={isInView ? { width: 40 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="h-px bg-red-500" />
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <motion.div initial={{ width: 0 }} animate={isInView ? { width: 30 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="h-px bg-red-500" />
+            <span className="text-red-400 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em]">Hablemos</span>
+            <motion.div initial={{ width: 0 }} animate={isInView ? { width: 30 } : {}} transition={{ duration: 0.7, delay: 0.3 }} className="h-px bg-red-500" />
           </div>
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-4">Contáctanos</h2>
           <p className="text-white/40 text-base max-w-lg mx-auto">

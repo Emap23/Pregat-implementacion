@@ -27,7 +27,7 @@ export function SCPSection() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24 grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
 
         {/* Left Content */}
         <motion.div
@@ -42,10 +42,10 @@ export function SCPSection() {
             whileInView={{ opacity: 1, width: 48 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex items-center gap-3 mb-6"
+            className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6"
           >
-            <div className="w-12 h-0.5 bg-red-600"></div>
-            <p className="text-white/80 text-xs sm:text-sm uppercase tracking-wide">
+            <div className="w-8 sm:w-12 h-0.5 bg-red-600"></div>
+            <p className="text-white/80 text-[10px] sm:text-xs uppercase tracking-wide">
               Impacto y Credibilidad Gubernamental 
             </p>
           </motion.div>
@@ -55,7 +55,7 @@ export function SCPSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6"
           >
             Sistema Ciudadano de Protección (SCP)
           </motion.h2>
@@ -65,7 +65,7 @@ export function SCPSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-white/80 text-base md:text-lg leading-relaxed mb-8 md:mb-10"
+            className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 md:mb-10"
           >
             Entendemos que la seguridad pública es el pilar de un gobierno fuerte y cercano a la gente. Conectamos oficiales 
             <span className="font-semibold text-white"> en campo con centros de mando en tiempo real.</span>
@@ -76,19 +76,19 @@ export function SCPSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-col sm:flex-row flex-wrap gap-4"
+            className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full uppercase text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-red-600 hover:bg-red-700 text-white px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-full uppercase text-[10px] sm:text-xs font-semibold tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Conocer más
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-transparent hover:bg-white/10 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-white/30 hover:border-white/50 uppercase text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300"
+              className="bg-transparent hover:bg-white/10 text-white px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 rounded-full border-2 border-white/30 hover:border-white/50 uppercase text-[10px] sm:text-xs font-semibold tracking-wide transition-all duration-300"
             >
               Contáctanos
             </motion.button>
