@@ -38,36 +38,36 @@ export function SirenOverlay() {
         .siren-orb-red {
           top:   -35vh;
           left:  -25vw;
-          width:  90vw;
+          width: 90vw;
           height: 90vh;
           background: radial-gradient(
             ellipse at 38% 30%,
-            rgba(220, 38, 38, 0.70)  0%,
-            rgba(220, 38, 38, 0.35) 15%,
-            rgba(220, 38, 38, 0.10) 38%,
-            rgba(220, 38, 38, 0.02) 60%,
+            rgba(255, 80, 80, 1)  0%,
+            rgba(255, 60, 60, 0.80) 15%,
+            rgba(220, 38, 38, 0.50) 38%,
+            rgba(220, 38, 38, 0.20) 60%,
             transparent 78%
           );
-          filter: blur(50px);
-          animation: sirenR 1.4s ease-in-out infinite;
+          filter: blur(35px);
+          animation: sirenRed 1.5s ease-in-out infinite;
         }
 
         /* ── Azul ── */
         .siren-orb-blue {
           top:   -35vh;
           right: -25vw;
-          width:  90vw;
+          width: 90vw;
           height: 90vh;
           background: radial-gradient(
             ellipse at 62% 30%,
-            rgba(37, 99, 235, 0.70)  0%,
-            rgba(37, 99, 235, 0.35) 15%,
-            rgba(37, 99, 235, 0.10) 38%,
-            rgba(37, 99, 235, 0.02) 60%,
+            rgba(80, 150, 255, 1)  0%,
+            rgba(70, 130, 255, 0.80) 15%,
+            rgba(37, 99, 235, 0.50) 38%,
+            rgba(37, 99, 235, 0.20) 60%,
             transparent 78%
           );
-          filter: blur(50px);
-          animation: sirenB 1.4s ease-in-out 0.7s infinite;
+          filter: blur(35px);
+          animation: sirenBlue 1.5s ease-in-out infinite;
         }
 
         /* ── Reflejo inferior suave ── */
@@ -79,33 +79,50 @@ export function SirenOverlay() {
           height:  50vh;
           background: radial-gradient(
             ellipse at 50% 80%,
-            rgba(100, 60, 200, 0.12)  0%,
-            rgba(37,  99, 235, 0.05) 40%,
+            rgba(180, 100, 255, 0.40)  0%,
+            rgba(100,  150, 255, 0.25) 40%,
             transparent 75%
           );
-          filter: blur(70px);
-          animation: sirenBottom 2.8s ease-in-out infinite;
+          filter: blur(50px);
+          animation: sirenBottom 1.5s ease-in-out infinite;
         }
 
-        /* Rojo: enciende en 0-35%, apagado en 50-100% */
-        @keyframes sirenR {
-          0%         { opacity: 0.08; transform: scale(0.88) translateY(-1vh); }
-          25%        { opacity: 1;    transform: scale(1.10) translateY(0);    }
-          40%        { opacity: 0.80; transform: scale(1.06) translateY(0);    }
-          55%, 100%  { opacity: 0.02; transform: scale(0.90) translateY(-1vh); }
+        /* Patrón de torreta de patrulla real - doble flash brillante */
+        @keyframes sirenRed {
+          0%      { opacity: 0; }
+          5%      { opacity: 1; }
+          8%      { opacity: 0; }
+          13%     { opacity: 1; }
+          18%     { opacity: 0; }
+          50%     { opacity: 0; }
+          55%     { opacity: 0.4; }
+          100%    { opacity: 0; }
         }
 
-        /* Azul: apagado en 0-45%, enciende en 55-90% */
-        @keyframes sirenB {
-          0%,  45%  { opacity: 0.02; transform: scale(0.90) translateY(-1vh); }
-          70%       { opacity: 1;    transform: scale(1.10) translateY(0);    }
-          85%       { opacity: 0.80; transform: scale(1.06) translateY(0);    }
-          100%      { opacity: 0.08; transform: scale(0.88) translateY(-1vh); }
+        @keyframes sirenBlue {
+          0%      { opacity: 0; }
+          50%     { opacity: 0; }
+          55%     { opacity: 1; }
+          60%     { opacity: 0; }
+          65%     { opacity: 1; }
+          70%     { opacity: 0; }
+          95%     { opacity: 0.4; }
+          100%    { opacity: 0; }
         }
 
         @keyframes sirenBottom {
-          0%, 100% { opacity: 0.4; }
-          50%      { opacity: 0.9; }
+          0%      { opacity: 0.2; }
+          5%      { opacity: 0.7; }
+          8%      { opacity: 0.2; }
+          13%     { opacity: 0.7; }
+          18%     { opacity: 0.2; }
+          50%     { opacity: 0.2; }
+          55%     { opacity: 0.7; }
+          60%     { opacity: 0.2; }
+          65%     { opacity: 0.7; }
+          70%     { opacity: 0.2; }
+          95%     { opacity: 0.7; }
+          100%    { opacity: 0.2; }
         }
       `}</style>
     </>
