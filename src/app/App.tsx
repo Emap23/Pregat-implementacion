@@ -1,11 +1,12 @@
 // 📁 src/app/App.tsx
 import { Navbar }              from './components/Navbar';
 import { HeroSection }         from './components/HeroSection';
+import { AboutSection }        from './components/AboutSection';
 import { SCPSection }          from './components/SCPSection';
 import { IntegrationSection }  from './components/IntegrationSection';
 import { ProductsSection }     from './components/ProductsSection';
 import { StatsSection }        from './components/StatsSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
+import { ModulesSection }      from './components/ModulesSection';
 import { ContactSection }      from './components/ContactSection';
 import { Footer }              from './components/Footer';
 import { Preloader }           from './components/Preloader';
@@ -30,12 +31,13 @@ export default function App() {
         <Navbar />
         <HeroSection />
         <PREGATMarquee variant="red" direction="left" />
+        <AboutSection />
         <SCPSection />
         <IntegrationSection />
         <ProductsSection />
         <PREGATMarquee variant="dark" direction="right" />
         <StatsSection />
-        <TestimonialsSection />
+        <ModulesSection />
         <ContactSection />
         <Footer />
       </div>

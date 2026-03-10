@@ -1,6 +1,6 @@
 // 📁 src/app/components/HeroSection.tsx
 import { ChevronDown } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef, useState } from 'react';
 
 import logo from '../../../img/LOGOPREGAT.svg';
@@ -9,7 +9,6 @@ import scpBackground from '../../../img/SCP1.webp';
 import { useParallax } from './useParallax';
 import { FloatingDecorators } from './FloatBob';
 
-// Todas las palabras del título con su color base
 const TITLE_LINES = [
   [
     { word: 'Tecnología', red: false },
@@ -27,7 +26,6 @@ const TITLE_LINES = [
   ],
 ];
 
-// Variantes por palabra — alternamos rojo/blanco en hover
 function getVariants(index: number, isRed: boolean) {
   const colors = ['#ef4444', '#ffffff', '#fca5a5', '#ffffff', '#ef4444', '#fca5a5', '#ffffff'];
   const hoverColor = isRed ? '#ff6b6b' : colors[index % colors.length];
@@ -52,6 +50,13 @@ function getVariants(index: number, isRed: boolean) {
   };
 }
 
+const HERO_BADGES = [
+  { title: 'Decisiones estratégicas', desc: 'Información clave al momento para respaldar las acciones de tu gabinete.' },
+  { title: 'Respuesta contundente', desc: 'Tiempos de reacción óptimos ante cualquier emergencia ciudadana.' },
+  { title: 'Respaldo social', desc: 'Fortalecer la percepción del ciudadano hacia el compromiso de tu gobierno.' },
+  { title: 'Visión de Estado', desc: 'Ayuda a la implementación de la estrategia de inteligencia en el país.' },
+];
+
 export function HeroSection() {
   const sectionRef  = useRef<HTMLElement>(null);
   const parallaxBg  = useParallax({ speed: 0.2 });
@@ -61,10 +66,10 @@ export function HeroSection() {
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const contentY       = useTransform(scrollY, [0, 400], [0, 60]);
 
-  const bgImagePath = typeof scpBackground === 'string' ? scpBackground : scpBackground.src;
-  const logoPath    = typeof logo === 'string' ? logo : logo.src;
+  const bgImagePath = typeof scpBackground === 'string' ? scpBackground : (scpBackground as any).src;
+  const logoPath    = typeof logo === 'string' ? logo : (logo as any).src;
 
-  let wordIndex = 0; // contador global para delays escalonados
+  let wordIndex = 0;
 
   return (
     <section
@@ -91,16 +96,16 @@ export function HeroSection() {
 
       <FloatingDecorators />
 
-      {/* Líneas de escaneo */}
+      {/* Líneas de escaneo — reducidas a 3 para rendimiento */}
       <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
-        {[...Array(6)].map((_, i) => (
+        {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
             className="absolute w-full h-px bg-gradient-to-r from-transparent via-red-600/10 to-transparent"
-            style={{ top: `${15 + i * 14}%` }}
+            style={{ top: `${20 + i * 25}%` }}
             initial={{ x: '-100%', opacity: 0 }}
             animate={{ x: '100%', opacity: [0, 0.5, 0] }}
-            transition={{ duration: 3, delay: 1.5 + i * 0.4, repeat: Infinity, repeatDelay: 8 + i * 2, ease: 'easeInOut' }}
+            transition={{ duration: 3, delay: 1.5 + i * 0.6, repeat: Infinity, repeatDelay: 10 + i * 3, ease: 'easeInOut' }}
           />
         ))}
       </div>
@@ -108,112 +113,106 @@ export function HeroSection() {
       {/* Contenido */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-20 sm:py-28 md:py-32 lg:py-40 w-full"
+        className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-28 w-full"
       >
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mb-6 sm:mb-8 md:mb-12"
+          className="mb-4 sm:mb-6 md:mb-8"
         >
           <img src={logoPath} alt="PREGAT" className="h-14 sm:h-18 md:h-22 lg:h-28 xl:h-32 w-auto" />
         </motion.div>
 
         <div className="max-w-3xl">
-          {/* Subtítulo */}
+          {/* Tag superior */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5"
+            className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4"
           >
             <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: 32 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="h-[1.5px] bg-red-500 min-w-[24px] sm:min-w-[32px]"
-          />
+              initial={{ width: 0 }}
+              animate={{ width: 32 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="h-[1.5px] bg-red-500 min-w-[24px] sm:min-w-[32px]"
+            />
             <span className="text-red-400 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">
               Tecnología para tu gobierno
             </span>
           </motion.div>
 
-          {/* ── TÍTULO COMPLETO ANIMADO ── */}
+          {/* Título animado */}
           <h1
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-[1.3] mb-4 sm:mb-5 md:mb-6"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-[1.3] mb-3 sm:mb-4 md:mb-5"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             style={{ cursor: 'default' }}
           >
-            {TITLE_LINES.map((line, lineIdx) => {
-              return (
-                <span key={lineIdx} className="flex flex-wrap gap-x-[0.2em] sm:gap-x-[0.28em] gap-y-0.5 sm:gap-y-1 mb-1">
-                  {line.map(({ word, red }) => {
-                    const idx = wordIndex++;
-                    return (
+            {TITLE_LINES.map((line, lineIdx) => (
+              <span key={lineIdx} className="flex flex-wrap gap-x-[0.2em] sm:gap-x-[0.28em] gap-y-0.5 sm:gap-y-1 mb-1">
+                {line.map(({ word, red }) => {
+                  const idx = wordIndex++;
+                  return (
+                    <motion.span
+                      key={word + idx}
+                      className="inline-block relative"
+                      initial="idle"
+                      animate={hovered ? 'hovered' : 'idle'}
+                      variants={getVariants(idx, red)}
+                      transition={{
+                        duration: 0.4,
+                        delay: hovered ? idx * 0.06 : idx * 0.02,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      {word}
                       <motion.span
-                        key={word + idx}
-                        className="inline-block relative"
-                        initial="idle"
-                        animate={hovered ? 'hovered' : 'idle'}
-                        variants={getVariants(idx, red)}
-                        transition={{
-                          duration: 0.4,
-                          delay: hovered ? idx * 0.06 : idx * 0.02,
-                          ease: [0.22, 1, 0.36, 1],
+                        className="absolute left-0 bottom-[-2px] h-[2px] rounded-full"
+                        style={{
+                          background: red ? '#ef4444' : '#dc2626',
+                          boxShadow: '0 0 8px rgba(220,38,38,0.9)',
                         }}
-                      >
-                        {word}
-
-                        {/* Línea roja bajo cada palabra */}
-                        <motion.span
-                          className="absolute left-0 bottom-[-2px] h-[2px] rounded-full"
-                          style={{
-                            background: red ? '#ef4444' : '#dc2626',
-                            boxShadow: '0 0 8px rgba(220,38,38,0.9)',
-                          }}
-                          initial={{ width: '0%', opacity: 0 }}
-                          animate={hovered
-                            ? { width: '100%', opacity: 1 }
-                            : { width: '0%',   opacity: 0 }
-                          }
-                          transition={{
-                            duration: 0.35,
-                            delay: hovered ? idx * 0.07 + 0.08 : 0,
-                            ease: 'easeOut',
-                          }}
-                        />
-                      </motion.span>
-                    );
-                  })}
-                </span>
-              );
-            })}
+                        initial={{ width: '0%', opacity: 0 }}
+                        animate={hovered ? { width: '100%', opacity: 1 } : { width: '0%', opacity: 0 }}
+                        transition={{
+                          duration: 0.35,
+                          delay: hovered ? idx * 0.07 + 0.08 : 0,
+                          ease: 'easeOut',
+                        }}
+                      />
+                    </motion.span>
+                  );
+                })}
+              </span>
+            ))}
           </h1>
 
+          {/* Subtítulo — solo 1 párrafo limpio */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
-            className="text-white/70 text-sm sm:text-base md:text-lg mb-8 sm:mb-10 max-w-lg sm:max-w-xl leading-relaxed"
+            transition={{ duration: 0.8, delay: 1.4 }}
+            className="text-white/80 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-xl leading-relaxed"
           >
-            Soluciones integrales para fortalecer a las fuerzas del orden
-            y consolidar la confianza social en tu administración.
+            Soluciones integrales para fortalecer a las fuerzas del orden y consolidar la confianza social en tu administración.
           </motion.p>
 
+          {/* Botones */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12 sm:mb-16 md:mb-20"
+            transition={{ duration: 0.8, delay: 1.6 }}
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
           >
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(220,38,38,0.6)' }}
               whileTap={{ scale: 0.97 }}
               className="bg-red-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-xs sm:text-sm tracking-wide"
             >
-              Solicitar Asesoría
+              Solicitar Asesoría para mi Gobierno
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -223,26 +222,22 @@ export function HeroSection() {
               Conocer Soluciones
             </motion.button>
           </motion.div>
-        </div>
 
-        {/* Stats */}
-        <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-12">
-          {[
-            { value: '800+',  label: 'Entidades' },
-            { value: '316+',  label: 'Policías'  },
-            { value: '200M+', label: 'Casos'     },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.2 + i * 0.1 }}
-              className="text-left"
-            >
-              <div className="text-white font-bold text-base sm:text-lg md:text-xl">{stat.value}</div>
-              <div className="text-white/50 text-[10px] sm:text-xs uppercase tracking-wide">{stat.label}</div>
-            </motion.div>
-          ))}
+          {/* Badges compactos */}
+          <div className="grid grid-cols-2 gap-3 max-w-2xl">
+            {HERO_BADGES.map((badge, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.8 + i * 0.08 }}
+                className="bg-white/[0.04] border border-white/[0.08] p-3 rounded-lg"
+              >
+                <span className="text-red-400 font-semibold text-xs block mb-0.5">{badge.title}</span>
+                <span className="text-white/50 text-[11px] leading-snug block">{badge.desc}</span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </motion.div>
 
@@ -250,7 +245,7 @@ export function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
+        transition={{ delay: 2.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <motion.div

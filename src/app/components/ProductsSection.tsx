@@ -78,7 +78,7 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
   const Icon = product.icon;
 
   return (
-    <div ref={cardRef} className="sticky top-20 h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div ref={cardRef} className="sticky top-20 min-h-[100svh] md:h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-0">
       <motion.div
         style={{ scale, opacity, y }}
         className="w-full max-w-5xl rounded-2xl overflow-hidden relative"
@@ -102,7 +102,7 @@ function ProductCard({ product, index, total }: { product: typeof products[0]; i
         <div className="absolute top-0 left-0 right-0 h-[2px]"
           style={{ background: `linear-gradient(90deg, transparent, ${product.color}, transparent)` }} />
 
-        <div className="relative z-10 p-8 md:p-12 lg:p-16 grid md:grid-cols-2 gap-10 items-center min-h-[500px]">
+        <div className="relative z-10 p-6 sm:p-8 md:p-12 lg:p-16 grid md:grid-cols-2 gap-6 md:gap-10 items-center min-h-[400px] md:min-h-[500px]">
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
@@ -201,23 +201,41 @@ export function ProductsSection() {
             <div className="flex items-center justify-center gap-3 mb-4">
               <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
-              <span className="text-red-400 text-xs font-mono uppercase tracking-[0.25em]">Portfolio Tecnológico</span>
+              <span className="text-red-400 text-xs font-mono uppercase tracking-[0.25em]">Tecnología en Campo</span>
               <motion.div initial={{ width: 0 }} whileInView={{ width: 40 }} viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.2 }} className="h-px bg-red-500" />
             </div>
 
-            <h2 className="ps-title text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4">
-              Nuestros Productos
+            <h2 className="ps-title text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
+              Equipamiento de Vanguardia para Proteger a tus Elementos
             </h2>
 
-            <p className="text-white/40 text-base max-w-lg mx-auto mb-8">
-              Desplázate hacia abajo para explorar cada módulo del ecosistema SCP.
-            </p>
+            <div className="text-white/70 text-sm md:text-base max-w-2xl mx-auto mb-10 space-y-4">
+              <p>Potenciamos tus estrategias de prevención delictiva mediante inteligencia estadística y análisis de datos en campo.</p>
+              <p>Dotamos a tu corporación del equipamiento físico más avanzado, como BodyCams, arneses y dispositivos móviles, para que tus oficiales operen con total respaldo. La información visual y geolocalizada capturada alimenta un módulo de inteligencia que proyecta la capacidad de respuesta de tu administración.</p>
+              <p>Tu equipo de análisis podrá visualizar el mapa de posible incidencia delictiva, garantizando un despliegue operativo exacto basado en la incidencia real. Nuestra tecnología mantiene a tu gobierno un paso adelante: en próximas actualizaciones contaremos con IA para el análisis óptimo de la data general, fortaleciendo aún más tu capacidad de anticipación.</p>
+            </div>
+
+            {/* Badges Tecnología en Campo */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-12 text-left">
+              {[
+                { title: 'Prevención basada en datos', desc: 'Mapa de posible incidencia delictiva para anticipar.' },
+                { title: 'Estrategia focalizada', desc: 'Análisis constante de las zonas con mayor incidencia.' },
+                { title: 'Operativos exactos', desc: 'Despliegue en base a la incidencia para blindar tu zona.' },
+                { title: 'Análisis Integral', desc: 'Búsqueda y correlación de la información operativa.' },
+              ].map((badge, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-4 rounded-xl flex flex-col gap-1.5 hover:bg-white/10 transition-colors">
+                  <div className="w-2 h-2 rounded-full bg-red-500 mb-1" />
+                  <span className="text-white font-bold text-sm leading-tight">{badge.title}</span>
+                  <span className="text-white/50 text-xs leading-relaxed">{badge.desc}</span>
+                </div>
+              ))}
+            </div>
 
             <motion.div
               animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="inline-flex flex-col items-center gap-1 text-white/30"
+              transition={{ duration: 1.5, repeat: 3 }}
+              className="inline-flex flex-col items-center gap-1 text-white/30 mt-4"
             >
               <ArrowDown className="w-4 h-4" />
               <span className="text-xs font-mono tracking-widest">SCROLL</span>
@@ -236,8 +254,8 @@ export function ProductsSection() {
       <style>{`
         .ps-title {
           color: #fff;
-          animation: psTR 1.4s ease-in-out infinite,
-                     psTB 1.4s ease-in-out .7s infinite;
+          animation: psTR 1.4s ease-in-out 3,
+                     psTB 1.4s ease-in-out .7s 3;
         }
         @keyframes psTR {
           0%,100% { text-shadow: 0 0 18px rgba(220,38,38,.95), 0 0 55px rgba(220,38,38,.5), 0 0 110px rgba(220,38,38,.25); }

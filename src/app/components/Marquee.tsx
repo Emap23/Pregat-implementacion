@@ -30,7 +30,8 @@ export function Marquee({
       style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)' }}
     >
       <motion.div
-        className="inline-flex"
+        className="inline-flex will-change-transform"
+        style={{ transform: 'translateZ(0)' }}
         animate={{ x: direction === 'left' ? ['0%', '-50%'] : ['-50%', '0%'] }}
         transition={{
           duration: speed,
@@ -40,11 +41,11 @@ export function Marquee({
         }}
       >
         {doubled.map((item, index) => (
-          <span key={index} className="inline-flex items-center gap-6">
-            <span className={`text-sm font-semibold uppercase tracking-widest ${itemClassName}`}>
+          <span key={index} className="inline-flex items-center gap-4 md:gap-6">
+            <span className={`text-sm md:text-base lg:text-lg font-semibold uppercase tracking-widest ${itemClassName}`}>
               {item}
             </span>
-            <span className="text-red-600 mx-4 text-lg">{separator}</span>
+            <span className="text-red-600 mx-3 md:mx-4 text-lg">{separator}</span>
           </span>
         ))}
       </motion.div>

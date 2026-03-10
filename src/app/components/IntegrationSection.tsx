@@ -1,24 +1,42 @@
 // 📁 src/app/components/IntegrationSection.tsx
-import { MessageCircle, LayoutDashboard, UserCheck, Radio, Brain, Shield, Terminal, Clock, DatabaseZap, Wifi, Target, Activity, Cpu, Lock } from 'lucide-react';
+import { Shield, UserCheck, HeartHandshake, Clock } from 'lucide-react';
 import { motion, useInView } from 'motion/react';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import ico1 from '../../../img/ico1.jpeg';
 import ico2 from '../../../img/ico2.jpeg';
 import ico3 from '../../../img/ico3.jpeg';
 import ico4 from '../../../img/ico4.jpeg';
-import ico5 from '../../../img/ico5.jpeg';
-import ico6 from '../../../img/ico6.jpeg';
-
-const icons = [ico1, ico2, ico3, ico4, ico5, ico6];
 
 const integrations = [
-  { icon: MessageCircle, title: 'SCP CIUDADANO', code: '0x001_COMMS', description: 'Facilita una comunicación directa y transparente con los ciudadanos.', color: '#ef4444', latency: '4ms', tag: 'NODE::01' },
-  { icon: LayoutDashboard, title: 'SCP DASHBOARD', code: '0x002_VISUAL', description: 'Integra una herramienta para la toma de decisiones informadas y estratégicas.', color: '#3b82f6', latency: '2ms', tag: 'NODE::02' },
-  { icon: UserCheck, title: 'SCP SUPERVISOR', code: '0x003_AUTH', description: 'Asegura una respuesta rápida y efectiva ante cualquier incidente.', color: '#10b981', latency: '3ms', tag: 'NODE::03' },
-  { icon: Radio, title: 'SCP CENTRO DE MANDO', code: '0x004_RADIO', description: 'Supervisar y gestionar las actividades policiales en tiempo real.', color: '#06b6d4', latency: '1ms', tag: 'NODE::04' },
-  { icon: Brain, title: 'SCP INTELIGENCIA', code: '0x005_NEURAL', description: 'Proporcionar información clave para la toma de decisiones estratégicas.', color: '#f97316', latency: '10ms', tag: 'NODE::05' },
-  { icon: Shield, title: 'SCP POLICÍA', code: '0x006_ENFORCE', description: 'Optimizar las actividades diarias de los elementos de seguridad.', color: '#6366f1', latency: '5ms', tag: 'NODE::06' },
+  {
+    icon: Shield,
+    title: 'Disciplina corporativa',
+    description: 'Seguimiento de protocolos de actuación policial.',
+    color: '#ef4444',
+    image: ico1,
+  },
+  {
+    icon: UserCheck,
+    title: 'Certidumbre ciudadana',
+    description: 'Confianza en el actuar de los oficiales frente a la sociedad.',
+    color: '#3b82f6',
+    image: ico2,
+  },
+  {
+    icon: HeartHandshake,
+    title: 'Cercanía real',
+    description: 'Proximidad social de las autoridades como sello de tu gobierno.',
+    color: '#10b981',
+    image: ico3,
+  },
+  {
+    icon: Clock,
+    title: 'Atención Efectiva',
+    description: 'Atención de alertas en tiempo óptimo para la tranquilidad ciudadana.',
+    color: '#06b6d4',
+    image: ico4,
+  },
 ];
 
 export function IntegrationSection() {
@@ -27,29 +45,52 @@ export function IntegrationSection() {
 
   return (
     <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-[#080d1a] relative overflow-hidden" ref={containerRef} id="integracion">
-      {/* MALLA TÁCTICA DE FONDO */}
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+      {/* Malla táctica de fondo */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{ backgroundImage: `radial-gradient(#fff 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
-        {/* HEADER PRINCIPAL */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="flex items-center gap-2 mb-3 sm:mb-4">
-            <span className="w-6 sm:w-8 h-[1px] bg-red-600" />
-            <span className="font-mono text-[9px] sm:text-[10px] text-red-500 uppercase tracking-[0.3em] sm:tracking-[0.4em] font-bold">Ecosistema Sincronizado V4.0</span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-12 sm:mb-16 md:mb-20 max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="flex items-center gap-2 mb-4"
+          >
+            <span className="w-8 h-[1px] bg-red-600" />
+            <span className="text-red-400 text-xs uppercase tracking-[0.25em] font-semibold">Beneficios para tu Administración</span>
           </motion.div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight uppercase">
-            Conoce la <span className="font-black italic">Integración SCP</span>
-          </h2>
-          <p className="text-slate-400 font-mono text-[10px] sm:text-xs mt-4 sm:mt-6 max-w-xl md:max-w-2xl leading-relaxed">
-            [SISTEMA UNIFICADO]: Centraliza la gestión de crisis en una plataforma unificada. Garantice la interoperabilidad de sus sistemas de mando.
-          </p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-6 leading-tight"
+          >
+            Resultados Tangibles que Proyectan un{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">Gobierno Seguro</span>
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-white/60 text-[15px] sm:text-base leading-[1.8] text-justify space-y-4"
+          >
+            <p>
+              Sumar nuestras soluciones a tu estrategia se traduce en beneficios institucionales que la ciudadanía percibe directamente. Al contar con evidencia digital de cada intervención en la calle, tu gobierno demuestra un seguimiento estricto de los protocolos de actuación, protegiendo jurídicamente tanto a los ciudadanos como a tus oficiales.
+            </p>
+            <p>
+              La generación de reportes automatizados y la medición constante de procesos proyectan una administración moderna y transparente. Al garantizar la atención de alertas en tiempo óptimo, se materializa una proximidad social real, consolidando la confianza ciudadana en el actuar de tus autoridades.
+            </p>
+          </motion.div>
         </div>
 
-        {/* GRID DE MÓDULOS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {integrations.map((item, index) => (
-            <HardwareModule key={index} item={item} index={index} isInView={isInView} iconImage={icons[index]} />
+            <BenefitCard key={index} item={item} index={index} isInView={isInView} />
           ))}
         </div>
       </div>
@@ -57,133 +98,75 @@ export function IntegrationSection() {
   );
 }
 
-function HardwareModule({ item, index, isInView, iconImage }: { item: any; index: number; isInView: boolean; iconImage?: string }) {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+function BenefitCard({ item, index, isInView }: { item: typeof integrations[0]; index: number; isInView: boolean }) {
+  const Icon = item.icon;
 
   return (
     <motion.div
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.1, duration: 0.8 }}
-      className="group relative h-[400px] sm:h-[450px] md:h-[480px] lg:h-[520px] bg-[#0c162d] border border-white/10 rounded-sm overflow-hidden flex flex-col transition-all duration-500 hover:border-red-500/50"
+      transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
+      className="group relative bg-[#0c1424] border border-white/[0.07] rounded-2xl overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/40"
     >
-      {/* EFECTO CRISTAL / SCANLINE */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] z-20 opacity-20" />
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-        style={{ background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.05), transparent 40%)` }} />
+      {/* Top accent bar */}
+      <div
+        className="h-[3px] w-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: `linear-gradient(90deg, ${item.color}, ${item.color}80, transparent)` }}
+      />
 
-      <div className="relative z-10 p-4 sm:p-6 md:p-8 flex flex-col h-full">
-        {/* TOP: TAGS DE IDENTIFICACIÓN */}
-        <div className="flex justify-between items-start mb-4 sm:mb-6 md:mb-8 font-mono">
-          <div className="space-y-1">
-            <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] text-white/40">
-              <Terminal size={10} className="text-red-500" />
-              <span>{item.tag}</span>
-            </div>
-            <div className="text-[10px] sm:text-[12px] text-white/80 font-bold tracking-tighter italic">{item.code}</div>
-          </div>
-          <div className="flex flex-col items-end gap-1">
-            <div className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[7px] sm:text-[8px] text-emerald-500 font-bold tracking-widest uppercase">Live</span>
-            </div>
-          </div>
-        </div>
-
-        {/* CENTER: CORE ICON & VISUALIZER */}
-        <div className="flex-1 flex flex-col items-center justify-center relative mb-4 sm:mb-6">
-          <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
-             <Target size={120} className="group-hover:rotate-90 transition-transform duration-[4000ms]" />
-          </div>
-          
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative p-4 sm:p-5 md:p-6 bg-[#080d1a] border border-white/5 shadow-2xl z-10"
+      <div className="p-6 sm:p-7">
+        {/* Icon area */}
+        <div className="relative mb-6">
+          {/* Image icon */}
+          <div
+            className="w-16 h-16 rounded-2xl overflow-hidden border transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+            style={{ borderColor: `${item.color}30` }}
           >
-            <div className="absolute inset-0 blur-2xl opacity-20 group-hover:opacity-50 transition-all" style={{ backgroundColor: item.color }} />
-            {iconImage ? (
-              <img 
-                src={iconImage} 
-                alt={item.title} 
-                className="relative w-10 sm:w-12 md:w-12 h-10 sm:h-12 md:h-12 object-contain group-hover:scale-110 transition-transform" 
-              />
-            ) : (
-              <item.icon size={36} className="sm:w-10 sm:h-10 md:w-12 md:h-12 relative text-white group-hover:scale-110 transition-transform" />
-            )}
-          </motion.div>
-        </div>
-
-        {/* INFO TEXTUAL */}
-        <div className="mb-4 sm:mb-6 md:mb-8 border-l-2 border-red-600 pl-3 sm:pl-4">
-          <h3 className="text-white font-black text-base sm:text-lg md:text-xl tracking-tight mb-1 sm:mb-2 uppercase italic">
-            {item.title}
-          </h3>
-          <p className="text-slate-400 text-[10px] sm:text-xs leading-relaxed font-medium">
-            {item.description}
-          </p>
-        </div>
-
-        {/* BOTTOM: DATAGRID (ESTRUCTURA DE CELDAS) */}
-        <div className="mt-auto space-y-2 sm:space-y-3">
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            {/* Celda Latencia */}
-            <div className="bg-black/30 border border-white/5 p-2 sm:p-3 rounded-sm flex items-center gap-2 sm:gap-3">
-              <Clock className="text-red-500/50 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <div className="flex flex-col">
-                <span className="text-[7px] sm:text-[8px] text-white/20 uppercase font-mono leading-none mb-0.5 sm:mb-1 tracking-widest">Latency</span>
-                <span className="text-[9px] sm:text-[11px] text-white font-mono font-bold leading-none italic">// {item.latency}</span>
-              </div>
-            </div>
-
-            {/* Celda Status */}
-            <div className="bg-black/30 border border-white/5 p-2 sm:p-3 rounded-sm flex items-center gap-2 sm:gap-3">
-              <DatabaseZap className="text-red-500/50 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <div className="flex flex-col">
-                <span className="text-[7px] sm:text-[8px] text-white/20 uppercase font-mono leading-none mb-0.5 sm:mb-1 tracking-widest">Status</span>
-                <span className="text-[9px] sm:text-[11px] text-white font-mono font-bold leading-none italic">// ONLINE</span>
-              </div>
-            </div>
-
-            {/* Celda Encryption */}
-            <div className="bg-black/30 border border-white/5 p-2 sm:p-3 rounded-sm flex items-center gap-2 sm:gap-3">
-              <Wifi className="text-red-500/50 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <div className="flex flex-col">
-                <span className="text-[7px] sm:text-[8px] text-white/20 uppercase font-mono leading-none mb-0.5 sm:mb-1 tracking-widest">Encrypt</span>
-                <span className="text-[9px] sm:text-[11px] text-white font-mono font-bold leading-none italic">// AES_256</span>
-              </div>
-            </div>
-
-            {/* Celda Security */}
-            <div className="bg-black/30 border border-red-500/20 p-2 sm:p-3 rounded-sm flex items-center gap-2 sm:gap-3 group-hover:bg-red-500/5 transition-colors">
-              <Lock className="text-red-600 w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <div className="flex flex-col">
-                <span className="text-[7px] sm:text-[8px] text-red-500/40 uppercase font-mono leading-none mb-0.5 sm:mb-1 tracking-widest italic font-black">Secure</span>
-                <span className="text-[9px] sm:text-[11px] text-red-500 font-mono font-bold leading-none tracking-tighter">CHANNEL_V4</span>
-              </div>
-            </div>
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          {/* BARRA DE PROCESAMIENTO DINÁMICA */}
-          <div className="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-             <motion.div 
-               animate={{ x: ['-100%', '200%'] }}
-               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-               className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-transparent via-red-600 to-transparent"
-             />
+          {/* Floating lucide icon badge */}
+          <div
+            className="absolute -bottom-1 -right-1 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110"
+            style={{ background: item.color, boxShadow: `0 4px 14px ${item.color}50` }}
+          >
+            <Icon className="w-4 h-4 text-white" />
           </div>
+        </div>
+
+        {/* Content */}
+        <h3 className="text-white font-bold text-lg mb-2 leading-snug group-hover:text-white transition-colors">
+          {item.title}
+        </h3>
+
+        <p className="text-white/50 text-sm leading-relaxed group-hover:text-white/65 transition-colors">
+          {item.description}
+        </p>
+
+        {/* Bottom detail line */}
+        <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: item.color, boxShadow: `0 0 8px ${item.color}` }} />
+            <span className="text-[11px] text-white/30 font-medium uppercase tracking-wider">Activo</span>
+          </div>
+          <span
+            className="text-[11px] font-semibold tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ color: item.color }}
+          >
+            Ver más
+          </span>
         </div>
       </div>
 
-      {/* TORNILLOS DE FIJACIÓN */}
-      <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
-      <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
-      <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
-      <div className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-white/10 shadow-inner" />
+      {/* Hover glow effect */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background: `radial-gradient(ellipse at 50% 0%, ${item.color}08, transparent 70%)` }}
+      />
     </motion.div>
   );
 }

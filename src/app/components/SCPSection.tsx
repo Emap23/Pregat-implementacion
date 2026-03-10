@@ -46,7 +46,7 @@ export function SCPSection() {
           >
             <div className="w-8 sm:w-12 h-0.5 bg-red-600"></div>
             <p className="text-white/80 text-[10px] sm:text-xs uppercase tracking-wide">
-              Impacto y Credibilidad Gubernamental 
+              Control Operativo Total
             </p>
           </motion.div>
 
@@ -57,19 +57,44 @@ export function SCPSection() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6"
           >
-            Sistema Ciudadano de Protección (SCP)
+            Conoce SCP: Vanguardia Tecnológica para tu Corporación
           </motion.h2>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 md:mb-10"
+            className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 md:mb-10 space-y-4"
           >
-            Entendemos que la seguridad pública es el pilar de un gobierno fuerte y cercano a la gente. Conectamos oficiales 
-            <span className="font-semibold text-white"> en campo con centros de mando en tiempo real.</span>
-          </motion.p>
+            <p className="font-semibold text-white">Una solución integral de hardware y software que fortalece de manera decisiva las capacidades operativas y tácticas de tus fuerzas del orden.</p>
+            <p>El Sistema de Control Policial (SCP) es una plataforma robusta que moderniza el trabajo policial, dotando a tu corporación de las mejores herramientas. Integramos el control, la supervisión y el seguimiento del personal, lo que permite visualizar el histórico de patrullajes y dar seguimiento puntual a la atención de cada alerta.</p>
+            <p>Con SCP, tu Centro de Mando consolida su autoridad al visualizar videos que inician automáticamente y supervisar operativos en campo mediante streaming del oficial. Además, facilitamos labores clave mediante el llenado del IPH asistido, agilizando la labor administrativa de tus elementos para mantenerlos activos en las calles.</p>
+          </motion.div>
+
+          {/* Badges SCP */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.45 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+          >
+            {[
+              { title: 'Certeza institucional', desc: 'Evidencia digital en video y audio de cada intervención.' },
+              { title: 'Eficiencia administrativa', desc: 'Reportes automatizados e IPH asistido para agilizar trámites.' },
+              { title: 'Optimización inteligente', desc: 'Medición de procesos para una óptima administración.' },
+              { title: 'Supervisión Continua', desc: 'Control remoto y supervisión en video y audio desde la central.' },
+            ].map((badge, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                <div>
+                  <h4 className="text-white font-bold text-sm">{badge.title}</h4>
+                  <p className="text-white/60 text-xs mt-0.5">{badge.desc}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

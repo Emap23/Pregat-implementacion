@@ -58,23 +58,13 @@ export function FloatingDecorators() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Círculo rojo grande - esquina superior derecha */}
-      <FloatBob direction="y" duration={4} delay={0} className="absolute -top-20 -right-20 opacity-10">
+      <FloatBob direction="y" duration={5} delay={0} className="absolute -top-20 -right-20 opacity-10">
         <div className="w-64 h-64 rounded-full bg-red-600 blur-3xl" />
       </FloatBob>
 
       {/* Círculo azul - esquina inferior izquierda */}
-      <FloatBob direction="y" duration={5} delay={1} className="absolute -bottom-20 -left-20 opacity-10">
+      <FloatBob direction="y" duration={6} delay={1.5} className="absolute -bottom-20 -left-20 opacity-10">
         <div className="w-80 h-80 rounded-full bg-blue-600 blur-3xl" />
-      </FloatBob>
-
-      {/* Punto decorativo rojo */}
-      <FloatBob direction="both" duration={3.5} delay={0.5} className="absolute top-1/4 right-1/4 opacity-20">
-        <div className="w-4 h-4 rounded-full bg-red-500" />
-      </FloatBob>
-
-      {/* Punto decorativo blanco */}
-      <FloatBob direction="y" duration={2.8} delay={1.2} className="absolute bottom-1/3 left-1/3 opacity-15">
-        <div className="w-3 h-3 rounded-full bg-white" />
       </FloatBob>
     </div>
   );

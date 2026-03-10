@@ -1,5 +1,5 @@
 import { Globe, Users, Gavel, Camera } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 
 const stats = [
